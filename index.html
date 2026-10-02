@@ -385,6 +385,167 @@
         height: 120px;
       }
     }
+    /* ---------- OREN INTERACTIVE COMIC ---------- */
+
+.oren-comic {
+  padding: 80px 20px;
+  text-align: center;
+  background:
+    radial-gradient(circle at center, rgba(100, 0, 130, 0.22), transparent 55%),
+    #050307;
+  overflow: hidden;
+}
+
+.comic-header {
+  margin-bottom: 35px;
+}
+
+.comic-kicker {
+  color: #b35cff;
+  letter-spacing: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.comic-header h2 {
+  margin: 8px 0;
+  font-size: clamp(34px, 8vw, 70px);
+  letter-spacing: 5px;
+}
+
+.comic-header p {
+  color: #c9bfd1;
+}
+
+.comic-stage {
+  min-height: 520px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  perspective: 1400px;
+}
+
+.blood-bag {
+  width: 130px;
+  height: 170px;
+  margin-bottom: 55px;
+  position: relative;
+  border: 3px solid rgba(255,255,255,0.7);
+  border-radius: 20px 20px 35px 35px;
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,0.22) 0%,
+      rgba(255,255,255,0.08) 32%,
+      #74000b 33%,
+      #b00016 100%);
+  box-shadow:
+    0 0 25px rgba(180,0,20,0.55),
+    inset 0 0 18px rgba(255,255,255,0.12);
+  color: white;
+  cursor: pointer;
+  animation: bloodHover 2.4s ease-in-out infinite;
+}
+
+.blood-label {
+  position: absolute;
+  top: 68px;
+  left: 0;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.blood-drop {
+  position: absolute;
+  width: 18px;
+  height: 24px;
+  left: 50%;
+  bottom: -32px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #c00018;
+  border-radius: 70% 30% 70% 30%;
+  box-shadow: 0 0 15px rgba(255,0,30,0.8);
+}
+
+.comic-book {
+  width: min(760px, 92vw);
+  aspect-ratio: 16 / 10;
+  position: relative;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 25px 30px rgba(0,0,0,0.75));
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 18px 18px 8px;
+  border: 2px solid #54256f;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(139,47,190,0.35), transparent 30%),
+    linear-gradient(135deg, #120718, #020103 70%);
+  box-shadow:
+    inset 12px 0 20px rgba(0,0,0,0.8),
+    inset -5px 0 15px rgba(121,38,161,0.25),
+    0 0 30px rgba(120,35,170,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-title {
+  font-size: clamp(50px, 12vw, 110px);
+  font-weight: 900;
+  letter-spacing: 10px;
+  text-shadow:
+    0 0 10px #7f28b4,
+    0 0 30px rgba(133,40,190,0.75);
+}
+
+.cover-subtitle {
+  margin-top: 15px;
+  color: #b98acb;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+
+@keyframes bloodHover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@media (max-width: 600px) {
+  .oren-comic {
+    padding: 60px 12px;
+  }
+
+  .comic-stage {
+    min-height: 430px;
+  }
+
+  .blood-bag {
+    width: 105px;
+    height: 140px;
+    margin-bottom: 45px;
+  }
+
+  .blood-label {
+    top: 55px;
+    font-size: 16px;
+  }
+
+  .comic-book {
+    width: 96vw;
+  }
+}
   </style>
 </head>
 
