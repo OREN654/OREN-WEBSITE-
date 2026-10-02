@@ -756,5 +756,21 @@
 
   </div>
 </section>
+  <script>
+  const bloodBag = document.getElementById("bloodBag");
+  const comicBook = document.getElementById("comicBook");
+  const bloodDrop = document.querySelector(".blood-drop");
+
+  bloodBag.addEventListener("click", function () {
+    if (bloodBag.classList.contains("activated")) return;
+
+    bloodBag.classList.add("activated");
+    bloodDrop.classList.add("falling");
+
+    setTimeout(function () {
+      comicBook.classList.add("awakened");
+    }, 700);
+  });
+  </script>
 </body>
 </html>
