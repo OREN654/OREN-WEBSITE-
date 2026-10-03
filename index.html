@@ -665,6 +665,18 @@
         padding: 10px 14px;
       }
     }
+
+    /* Detailed medical blood bag */
+    .blood-bag{width:138px;height:178px;margin-bottom:72px;border:2px solid rgba(245,248,255,.82);border-radius:13px 13px 28px 28px;background:linear-gradient(105deg,rgba(255,255,255,.28) 0 7%,transparent 8% 70%,rgba(255,255,255,.13) 72% 78%,transparent 80%),linear-gradient(to bottom,rgba(230,238,246,.20) 0 31%,rgba(82,0,8,.92) 32%,#a40014 60%,#69000b 100%);box-shadow:0 18px 30px rgba(0,0,0,.55),0 0 28px rgba(190,0,24,.42),inset 0 0 0 5px rgba(255,255,255,.09),inset 8px 0 12px rgba(255,255,255,.08),inset -9px 0 14px rgba(35,0,4,.28);filter:drop-shadow(0 10px 10px rgba(0,0,0,.45))}
+    .blood-bag::before{content:"";position:absolute;width:62px;height:20px;left:50%;top:-17px;transform:translateX(-50%);border:2px solid rgba(245,248,255,.82);border-bottom:0;border-radius:12px 12px 3px 3px;background:radial-gradient(ellipse at center,#09060c 0 18%,transparent 20%),rgba(220,228,238,.18)}
+    .blood-bag::after{content:"";position:absolute;inset:7px;border:1px dashed rgba(255,255,255,.36);border-radius:8px 8px 21px 21px;pointer-events:none}
+    .blood-label{top:68px;left:21px;width:calc(100% - 42px);padding:9px 2px 18px;font-size:16px;color:#410008;background:rgba(236,226,216,.88);border:1px solid rgba(255,255,255,.6);box-shadow:0 2px 8px rgba(0,0,0,.28);text-shadow:none}
+    .blood-label::after{content:"BLOOD TYPE: UNKNOWN";position:absolute;left:0;right:0;bottom:5px;font-size:7px;letter-spacing:1px;color:#68000d}
+    .blood-drop{bottom:-46px;background:radial-gradient(circle at 30% 25%,#ff4053 0 8%,#c00018 28%,#72000d 100%);box-shadow:0 0 15px rgba(255,0,30,.75),inset -3px -3px 4px rgba(60,0,8,.38)}
+    .blood-bag:hover{box-shadow:0 18px 30px rgba(0,0,0,.55),0 0 38px rgba(225,0,30,.62),inset 0 0 0 5px rgba(255,255,255,.1)}
+    .blood-bag:focus-visible{outline:3px solid #e9c8ff;outline-offset:7px}
+    .cover-shell.closing img{animation:closeCover 1.35s ease forwards}
+    @keyframes closeCover{0%{transform:rotateY(-100deg);opacity:0}35%{transform:rotateY(-72deg);opacity:.72}100%{transform:rotateY(0);opacity:1}}
   </style>
 </head>
 
@@ -881,7 +893,7 @@
         class="blood-bag"
         id="bloodBag"
         type="button"
-        aria-label="Open the OREN comic">
+        aria-label="Open the OREN comic" aria-pressed="false">
 
 
         <span class="blood-label">OREN</span>
@@ -1035,33 +1047,33 @@
   }
 
 
-  bloodBag.addEventListener("click", function () {
+  let comicAnimating = false;
 
-
-    if (comicOpened) {
-      return;
-    }
-
-
-    comicOpened = true;
-
-
-    bloodBag.classList.add("activated");
+  function releaseBloodDrop() {
+    bloodDrop.classList.remove("falling");
+    void bloodDrop.offsetWidth;
     bloodDrop.classList.add("falling");
+  }
 
+  bloodBag.addEventListener("click", function () {
+    if (comicAnimating) return;
+    comicAnimating = true;
+    bloodBag.classList.add("activated");
+    releaseBloodDrop();
 
-    setTimeout(function () {
-      coverShell.classList.add("awakened");
-    }, 650);
-
-
-    setTimeout(function () {
-      coverShell.classList.add("hide");
-      pagesReader.classList.add("show");
-      showPage(0);
-    }, 2050);
-
-
+    if (!comicOpened) {
+      comicOpened = true;
+      bloodBag.setAttribute("aria-label", "Close the OREN comic");
+      bloodBag.setAttribute("aria-pressed", "true");
+      setTimeout(function () { coverShell.classList.remove("closing"); coverShell.classList.add("awakened"); }, 650);
+      setTimeout(function () { coverShell.classList.add("hide"); pagesReader.classList.add("show"); showPage(0); comicAnimating = false; }, 2050);
+    } else {
+      comicOpened = false;
+      bloodBag.setAttribute("aria-label", "Open the OREN comic");
+      bloodBag.setAttribute("aria-pressed", "false");
+      setTimeout(function () { pagesReader.classList.remove("show"); coverShell.classList.remove("hide", "awakened"); coverShell.classList.add("closing"); }, 650);
+      setTimeout(function () { coverShell.classList.remove("closing"); bloodBag.classList.remove("activated"); bloodDrop.classList.remove("falling"); comicAnimating = false; }, 2050);
+    }
   });
 
 
