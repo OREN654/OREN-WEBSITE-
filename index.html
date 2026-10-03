@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OREN | Official Website</title>
 
+
   <style>
     * {
       margin: 0;
@@ -12,9 +13,11 @@
       box-sizing: border-box;
     }
 
+
     html {
       scroll-behavior: smooth;
     }
+
 
     body {
       min-height: 100vh;
@@ -24,6 +27,7 @@
         radial-gradient(circle at top, #28103f 0%, #100817 35%, #050507 75%);
       overflow-x: hidden;
     }
+
 
     body::before {
       content: "";
@@ -35,6 +39,7 @@
         radial-gradient(circle at 80% 65%, rgba(255,20,70,.10), transparent 35%);
       z-index: -1;
     }
+
 
     header {
       width: 100%;
@@ -50,6 +55,7 @@
       z-index: 100;
     }
 
+
     .logo {
       font-size: 1.8rem;
       font-weight: 900;
@@ -58,6 +64,7 @@
       text-shadow: 0 0 8px #8f2cff, 0 0 18px rgba(160,60,255,.7);
     }
 
+
     nav {
       display: flex;
       gap: 18px;
@@ -65,15 +72,18 @@
       justify-content: center;
     }
 
+
     nav a {
       color: #eee;
       text-decoration: none;
       font-size: .95rem;
     }
 
+
     nav a:hover {
       color: #d9b3ff;
     }
+
 
     .hero {
       min-height: 88vh;
@@ -85,6 +95,7 @@
       text-align: center;
     }
 
+
     .hero h1 {
       font-size: clamp(4rem,15vw,9rem);
       letter-spacing: 14px;
@@ -95,12 +106,14 @@
         0 0 55px rgba(150,0,255,.8);
     }
 
+
     .tagline {
       margin-top: 18px;
       font-size: 1.2rem;
       letter-spacing: 4px;
       color: #c8a8e9;
     }
+
 
     .oren-guide {
       margin-top: 45px;
@@ -111,6 +124,7 @@
       gap: 24px;
       flex-wrap: wrap;
     }
+
 
     .oren-avatar {
       width: 145px;
@@ -125,6 +139,7 @@
       animation: floatOren 4s ease-in-out infinite;
     }
 
+
     .oren-avatar img {
       width: 100%;
       height: 100%;
@@ -132,10 +147,12 @@
       display: block;
     }
 
+
     @keyframes floatOren {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+
 
     .oren-message {
       flex: 1;
@@ -149,16 +166,19 @@
       box-shadow: 0 0 30px rgba(150,0,255,.25);
     }
 
+
     .oren-message h2 {
       color: #d9b3ff;
       margin-bottom: 10px;
     }
+
 
     .oren-message p {
       color: #eee;
       line-height: 1.6;
       font-size: 1.05rem;
     }
+
 
     .guide-note {
       display: block;
@@ -167,6 +187,7 @@
       font-size: .85rem;
     }
 
+
     .buttons {
       margin-top: 35px;
       display: flex;
@@ -174,6 +195,7 @@
       gap: 15px;
       flex-wrap: wrap;
     }
+
 
     .btn {
       display: inline-block;
@@ -188,16 +210,19 @@
       transition: .25s;
     }
 
+
     .btn:hover {
       transform: translateY(-3px);
       background: rgba(140,40,220,.45);
     }
+
 
     section.content {
       padding: 80px 8%;
       max-width: 1200px;
       margin: auto;
     }
+
 
     .section-title {
       text-align: center;
@@ -207,6 +232,7 @@
       text-shadow: 0 0 15px rgba(150,50,255,.5);
     }
 
+
     .section-subtitle {
       max-width: 700px;
       margin: 0 auto 40px;
@@ -215,11 +241,13 @@
       line-height: 1.6;
     }
 
+
     .cards {
       display: grid;
       grid-template-columns: repeat(3,1fr);
       gap: 22px;
     }
+
 
     .card {
       min-height: 210px;
@@ -229,15 +257,18 @@
       border: 1px solid rgba(150,70,230,.3);
     }
 
+
     .card h3 {
       color: #d9b3ff;
       margin-bottom: 12px;
     }
 
+
     .card p {
       color: #cfcbd3;
       line-height: 1.65;
     }
+
 
     .episode {
       margin-top: 25px;
@@ -247,15 +278,18 @@
       background: rgba(18,10,27,.8);
     }
 
+
     .episode h3 {
       color: #e0bdff;
       margin-bottom: 8px;
     }
 
+
     .episode p {
       color: #c9c4cd;
       line-height: 1.6;
     }
+
 
     .media-box {
       min-height: 250px;
@@ -270,7 +304,9 @@
       background: rgba(10,7,14,.7);
     }
 
+
     /* COMIC */
+
 
     .oren-comic {
       padding: 80px 12px 100px;
@@ -280,6 +316,7 @@
         #050307;
     }
 
+
     .comic-kicker {
       color: #b35cff;
       letter-spacing: 4px;
@@ -287,15 +324,18 @@
       font-weight: bold;
     }
 
+
     .comic-header h2 {
       margin: 8px 0;
       font-size: clamp(34px,8vw,70px);
       letter-spacing: 5px;
     }
 
+
     .comic-header > p:last-child {
       color: #c9bfd1;
     }
+
 
     .comic-stage {
       margin-top: 35px;
@@ -304,7 +344,9 @@
       align-items: center;
     }
 
+
     /* BLOOD BAG */
+
 
     .blood-bag {
       width: 120px;
@@ -329,6 +371,7 @@
       animation: bloodHover 2.4s ease-in-out infinite;
     }
 
+
     .blood-label {
       position: absolute;
       top: 62px;
@@ -338,6 +381,7 @@
       font-weight: 900;
       letter-spacing: 3px;
     }
+
 
     .blood-drop {
       position: absolute;
@@ -351,19 +395,23 @@
       box-shadow: 0 0 15px rgba(255,0,30,.8);
     }
 
+
     @keyframes bloodHover {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+
 
     .blood-bag.activated {
       animation: none;
       transform: scale(.95);
     }
 
+
     .blood-drop.falling {
       animation: dropBlood .9s ease-in forwards;
     }
+
 
     @keyframes dropBlood {
       0% {
@@ -380,13 +428,16 @@
       }
     }
 
+
     /* READER */
+
 
     .comic-reader {
       width: min(1000px,96vw);
       position: relative;
       margin: auto;
     }
+
 
     .cover-shell {
       width: min(600px,88vw);
@@ -395,6 +446,7 @@
       perspective: 1400px;
       transition: opacity .5s ease, transform .5s ease;
     }
+
 
     .cover-shell img {
       width: 100%;
@@ -407,9 +459,11 @@
       transform-origin: left center;
     }
 
+
     .cover-shell.awakened img {
       animation: openCover 1.35s ease forwards;
     }
+
 
     @keyframes openCover {
       0% {
@@ -426,21 +480,26 @@
       }
     }
 
+
     .cover-shell.hide {
       display: none;
     }
 
+
     /* ACTUAL COMIC IMAGES */
+
 
     .pages-reader {
       display: none;
       width: 100%;
     }
 
+
     .pages-reader.show {
       display: block;
       animation: revealComic .7s ease;
     }
+
 
     @keyframes revealComic {
       from {
@@ -452,6 +511,7 @@
         transform: scale(1);
       }
     }
+
 
     .page-frame {
       width: 100%;
@@ -466,6 +526,7 @@
       user-select: none;
     }
 
+
     #comicPage {
       width: 100%;
       height: auto;
@@ -473,6 +534,7 @@
       -webkit-user-drag: none;
       user-select: none;
     }
+
 
     .reader-controls {
       margin-top: 20px;
@@ -482,6 +544,7 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+
 
     .reader-button {
       min-width: 110px;
@@ -494,10 +557,12 @@
       cursor: pointer;
     }
 
+
     .reader-button:disabled {
       opacity: .3;
       cursor: default;
     }
+
 
     .page-counter {
       color: #d6b8ee;
@@ -505,11 +570,13 @@
       font-weight: bold;
     }
 
+
     .swipe-note {
       margin-top: 14px;
       color: #93889e;
       font-size: .85rem;
     }
+
 
     footer {
       padding: 35px 20px;
@@ -519,45 +586,55 @@
       background: #050507;
     }
 
+
     footer strong {
       color: #cfa8f2;
     }
+
 
     @media (max-width: 800px) {
       header {
         padding: 16px 5%;
       }
 
+
       nav {
         gap: 10px;
       }
 
+
       nav a {
         font-size: .78rem;
       }
+
 
       .hero {
         padding-left: 5%;
         padding-right: 5%;
       }
 
+
       .hero h1 {
         letter-spacing: 8px;
       }
+
 
       .tagline {
         font-size: .9rem;
         letter-spacing: 2px;
       }
 
+
       .oren-message {
         text-align: center;
       }
+
 
       .cards {
         grid-template-columns: 1fr;
       }
     }
+
 
     @media (max-width: 500px) {
       header {
@@ -565,19 +642,23 @@
         gap: 12px;
       }
 
+
       .oren-avatar {
         width: 120px;
         height: 120px;
       }
+
 
       .oren-comic {
         padding-left: 5px;
         padding-right: 5px;
       }
 
+
       .comic-reader {
         width: 98vw;
       }
+
 
       .reader-button {
         min-width: 90px;
@@ -587,10 +668,13 @@
   </style>
 </head>
 
+
 <body>
+
 
 <header>
   <div class="logo">OREN</div>
+
 
   <nav>
     <a href="#home">Home</a>
@@ -601,24 +685,32 @@
   </nav>
 </header>
 
+
 <main>
+
 
   <section class="hero" id="home">
 
+
     <h1>OREN</h1>
+
 
     <p class="tagline">
       DREAMER • BLOOD • FATE
     </p>
 
+
     <div class="oren-guide">
+
 
       <div class="oren-avatar">
         <img src="oren-guide.jpg" alt="Oren">
       </div>
 
+
       <div class="oren-message">
         <h2>Hi. I'm Oren.</h2>
+
 
         <p>
           Welcome to my world. There are things here you probably
@@ -627,12 +719,15 @@
           I'll show you around.
         </p>
 
+
         <span class="guide-note">
           Oren's animated guide will appear here.
         </span>
       </div>
 
+
     </div>
+
 
     <div class="buttons">
       <a class="btn" href="#episodes">Enter the Story</a>
@@ -640,11 +735,15 @@
       <a class="btn" href="#comic">Open the Comic</a>
     </div>
 
+
   </section>
+
 
   <section class="content" id="world">
 
+
     <h2 class="section-title">Enter the World of OREN</h2>
+
 
     <p class="section-subtitle">
       A dark supernatural world of nightmares, hunters,
@@ -652,7 +751,9 @@
       that refuses to stay buried.
     </p>
 
+
     <div class="cards">
+
 
       <div class="card">
         <h3>Oren</h3>
@@ -663,6 +764,7 @@
         </p>
       </div>
 
+
       <div class="card">
         <h3>The Blood Stone</h3>
         <p>
@@ -671,6 +773,7 @@
           Some people would kill to possess it.
         </p>
       </div>
+
 
       <div class="card">
         <h3>The Hunter Clan</h3>
@@ -681,17 +784,23 @@
         </p>
       </div>
 
+
     </div>
+
 
   </section>
 
+
   <section class="content" id="episodes">
 
+
     <h2 class="section-title">Episodes</h2>
+
 
     <p class="section-subtitle">
       Follow Oren's story from the beginning.
     </p>
+
 
     <div class="episode">
       <h3>Episode One — Dreamer</h3>
@@ -702,6 +811,7 @@
       </p>
     </div>
 
+
     <div class="episode">
       <h3>Episode Two</h3>
       <p>
@@ -711,6 +821,7 @@
       </p>
     </div>
 
+
     <div class="episode">
       <h3>Episode Three — Slam Your Gavels and Pass Your Judgment</h3>
       <p>
@@ -719,33 +830,42 @@
       </p>
     </div>
 
+
   </section>
+
 
   <section class="content" id="media">
 
+
     <h2 class="section-title">OREN Media</h2>
+
 
     <p class="section-subtitle">
       This area will hold OREN videos, music, artwork,
       trailers, and animated story content.
     </p>
 
-    <div class="media-box">
-      <div>
-        <h3>Videos & Music Coming Here</h3>
-        <br>
-        <p>
-          We'll connect your actual OREN videos, songs,
-          artwork, and animated Oren guide here next.
-        </p>
+
+    <div class="media-box" style="display:block;padding:18px;border-style:solid;">
+      <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:14px;background:#000;box-shadow:0 18px 40px rgba(0,0,0,.55);" aria-label="OREN official music video">
+        <source src="OREN-music-video-web.mp4" type="video/mp4">
+        Your browser does not support the video player.
+      </video>
+      <div style="padding:20px 8px 4px;text-align:center;">
+        <h3 style="color:#e4c8ff;margin-bottom:8px;letter-spacing:2px;">I'M OREN — OFFICIAL MUSIC VIDEO</h3>
+        <p style="color:#bdb4c6;line-height:1.6;">The first official OREN music video. Press play to enter the sound of Oren's world.</p>
       </div>
     </div>
 
+
   </section>
+
 
   <!-- INTERACTIVE COMIC -->
 
+
   <section id="comic" class="oren-comic">
+
 
     <div class="comic-header">
       <p class="comic-kicker">ENTER THE STORY</p>
@@ -753,7 +873,9 @@
       <p>Blood awakens what was sealed.</p>
     </div>
 
+
     <div class="comic-stage">
+
 
       <button
         class="blood-bag"
@@ -761,14 +883,19 @@
         type="button"
         aria-label="Open the OREN comic">
 
+
         <span class="blood-label">OREN</span>
         <span class="blood-drop" id="bloodDrop"></span>
 
+
       </button>
+
 
       <div class="comic-reader">
 
+
         <!-- REAL COVER -->
+
 
         <div class="cover-shell" id="coverShell">
           <img
@@ -776,20 +903,27 @@
             alt="OREN Episode One Dreamer comic cover">
         </div>
 
+
         <!-- REAL COMIC PAGES -->
+
 
         <div class="pages-reader" id="pagesReader">
 
+
           <div class="page-frame" id="pageFrame">
+
 
             <img
               id="comicPage"
               src="oren-page-01.jpg"
               alt="OREN comic page 1">
 
+
           </div>
 
+
           <div class="reader-controls">
+
 
             <button
               class="reader-button"
@@ -798,11 +932,13 @@
               ← Previous
             </button>
 
+
             <span
               class="page-counter"
               id="pageCounter">
               1 / 8
             </span>
+
 
             <button
               class="reader-button"
@@ -811,27 +947,36 @@
               Next →
             </button>
 
+
           </div>
+
 
           <p class="swipe-note">
             Swipe left or right on the comic to turn the pages.
           </p>
 
+
         </div>
+
 
       </div>
 
+
     </div>
+
 
   </section>
 
+
 </main>
+
 
 <footer>
   <p>
     <strong>OREN</strong> — Official Story Website
   </p>
 </footer>
+
 
 <script>
   const bloodBag = document.getElementById("bloodBag");
@@ -844,6 +989,7 @@
   const nextPage = document.getElementById("nextPage");
   const pageCounter = document.getElementById("pageCounter");
 
+
   const comicPages = [
     "oren-page-01.jpg",
     "oren-page-02.jpg",
@@ -855,46 +1001,59 @@
     "oren-page-08.jpg"
   ];
 
+
   let currentPage = 0;
   let comicOpened = false;
   let touchStartX = 0;
   let touchEndX = 0;
+
 
   function showPage(index) {
     if (index < 0 || index >= comicPages.length) {
       return;
     }
 
+
     currentPage = index;
+
 
     comicPage.src = comicPages[currentPage];
     comicPage.alt =
       "OREN comic page " + (currentPage + 1);
 
+
     pageCounter.textContent =
       (currentPage + 1) + " / " + comicPages.length;
 
+
     previousPage.disabled =
       currentPage === 0;
+
 
     nextPage.disabled =
       currentPage === comicPages.length - 1;
   }
 
+
   bloodBag.addEventListener("click", function () {
+
 
     if (comicOpened) {
       return;
     }
 
+
     comicOpened = true;
+
 
     bloodBag.classList.add("activated");
     bloodDrop.classList.add("falling");
 
+
     setTimeout(function () {
       coverShell.classList.add("awakened");
     }, 650);
+
 
     setTimeout(function () {
       coverShell.classList.add("hide");
@@ -902,15 +1061,19 @@
       showPage(0);
     }, 2050);
 
+
   });
+
 
   previousPage.addEventListener("click", function () {
     showPage(currentPage - 1);
   });
 
+
   nextPage.addEventListener("click", function () {
     showPage(currentPage + 1);
   });
+
 
   pageFrame.addEventListener(
     "touchstart",
@@ -921,19 +1084,24 @@
     { passive: true }
   );
 
+
   pageFrame.addEventListener(
     "touchend",
     function (event) {
 
+
       touchEndX =
         event.changedTouches[0].screenX;
+
 
       const distance =
         touchEndX - touchStartX;
 
+
       if (Math.abs(distance) < 45) {
         return;
       }
+
 
       if (distance < 0) {
         showPage(currentPage + 1);
@@ -941,12 +1109,15 @@
         showPage(currentPage - 1);
       }
 
+
     },
     { passive: true }
   );
 
+
   showPage(0);
 </script>
+
 
 </body>
 </html>
