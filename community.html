@@ -1085,6 +1085,63 @@
         color: #dcc6ef;
         font-size: 0.85rem;
       }
+      .reward-badges {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: -10px 0 22px;
+      }
+      .reward-badge {
+        display: none;
+        padding: 8px 13px;
+        border: 1px solid #d758ff;
+        border-radius: 99px;
+        background: linear-gradient(
+          135deg,
+          rgba(91, 19, 126, 0.9),
+          rgba(104, 8, 29, 0.92)
+        );
+        color: #fff0ff;
+        font: 700 0.72rem Arial;
+        letter-spacing: 0.1em;
+        box-shadow: 0 0 17px rgba(194, 56, 255, 0.3);
+      }
+      .reward-badge.active {
+        display: inline-flex;
+      }
+      .profile-wall[data-theme="bloodstone"] {
+        border-color: #ed65ff;
+        box-shadow:
+          0 0 55px rgba(206, 48, 255, 0.42),
+          0 0 90px rgba(255, 25, 67, 0.22);
+      }
+      .profile-wall[data-theme="bloodstone"] .wall-energy {
+        height: 7px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #e963ff,
+          #fff,
+          #ff173f,
+          transparent
+        );
+        box-shadow:
+          0 0 27px #d84cff,
+          0 0 45px #ff193f;
+      }
+      .profile-wall[data-theme="bloodstone"] .wall-avatar {
+        border-color: #f09cff;
+        box-shadow:
+          0 0 0 7px rgba(30, 2, 38, 0.82),
+          0 0 48px #d34cff,
+          0 0 76px #ff2348;
+      }
+      .profile-wall[data-theme="bloodstone"] .wall-status:after {
+        content: "BLOOD STONE FINDER";
+      }
       @media (max-width: 760px) {
         .theme-grid {
           grid-template-columns: repeat(2, 1fr);
@@ -1249,6 +1306,11 @@
                 <div class="wall-handle" id="wallHandle">@member</div>
                 <div class="wall-status">PURPLE / RED COMIC WALL</div>
               </div>
+            </div>
+            <div class="reward-badges">
+              <span class="reward-badge" id="bloodStoneBadge"
+                >◆ BLOOD STONE FINDER</span
+              ><span class="reward-badge" id="transformationBadge"></span>
             </div>
             <div class="wall-picker">
               <h3>Choose Your Wall</h3>
@@ -1431,9 +1493,13 @@
           });
         }
       }
-      const wallThemes = ["oren", "hunter", "claw", "vampire"];
+      const wallThemes = ["oren", "hunter", "claw", "vampire", "bloodstone"];
       function applyWallTheme(theme) {
-        const chosen = wallThemes.includes(theme) ? theme : "oren";
+        const unlocked = !!currentUser?.user_metadata?.blood_stone_unlocked;
+        const chosen =
+          wallThemes.includes(theme) && (theme !== "bloodstone" || unlocked)
+            ? theme
+            : "oren";
         document.getElementById("profileWall").dataset.theme = chosen;
         document
           .querySelectorAll(".theme-choice:not(.locked)")
@@ -1443,6 +1509,41 @@
             button.setAttribute("aria-pressed", String(active));
           });
         return chosen;
+      }
+      function showCastleRewards() {
+        const meta = currentUser?.user_metadata || {};
+        const bloodButton = document.querySelector('[data-theme="bloodstone"]');
+        bloodButton.disabled = !meta.blood_stone_unlocked;
+        bloodButton.classList.toggle("locked", !meta.blood_stone_unlocked);
+        document
+          .getElementById("bloodStoneBadge")
+          .classList.toggle("active", !!meta.blood_stone_finder);
+        const badge = document.getElementById("transformationBadge");
+        const labels = {
+          oren: "OREN BLOODBORN",
+          hunter: "HUNTER CLAN",
+          claw: "CLAW CLAN",
+          vampire: "VAMPIRE CLAN",
+        };
+        badge.textContent = labels[meta.transformation] || "";
+        badge.classList.toggle("active", !!labels[meta.transformation]);
+        if (meta.blood_stone_unlocked)
+          document.getElementById("themeMessage").textContent =
+            "Blood Stone unlocked by completing the castle challenge.";
+      }
+      async function syncCastleReward() {
+        let reward;
+        try {
+          reward = JSON.parse(
+            localStorage.getItem("orenCastleReward") || "null",
+          );
+        } catch (error) {}
+        if (!reward || currentUser.user_metadata?.blood_stone_unlocked) return;
+        const { data, error } = await sb.auth.updateUser({ data: reward });
+        if (!error && data.user) {
+          currentUser = data.user;
+          localStorage.removeItem("orenCastleReward");
+        }
       }
       const make = (e, t, a) => {
           const n = document.createElement(e);
@@ -1532,26 +1633,24 @@
           : "Pause Motion";
         wallMotionButton.setAttribute("aria-pressed", String(paused));
       });
-      document
-        .querySelectorAll(".theme-choice:not(.locked)")
-        .forEach((button) =>
-          button.addEventListener("click", async () => {
-            if (!currentUser) return;
-            const theme = applyWallTheme(button.dataset.theme);
-            const status = document.getElementById("themeMessage");
-            status.textContent = "Saving your wall...";
-            const { data, error } = await sb.auth.updateUser({
-              data: { wall_theme: theme },
-            });
-            if (error) {
-              status.textContent = error.message;
-              applyWallTheme(currentUser.user_metadata?.wall_theme);
-              return;
-            }
-            currentUser = data.user;
-            status.textContent = button.textContent + " wall selected.";
-          }),
-        );
+      document.querySelectorAll(".theme-choice").forEach((button) =>
+        button.addEventListener("click", async () => {
+          if (!currentUser || button.disabled) return;
+          const theme = applyWallTheme(button.dataset.theme);
+          const status = document.getElementById("themeMessage");
+          status.textContent = "Saving your wall...";
+          const { data, error } = await sb.auth.updateUser({
+            data: { wall_theme: theme },
+          });
+          if (error) {
+            status.textContent = error.message;
+            applyWallTheme(currentUser.user_metadata?.wall_theme);
+            return;
+          }
+          currentUser = data.user;
+          status.textContent = button.textContent + " wall selected.";
+        }),
+      );
       async function ensureProfile(e) {
         let { data: t } = await sb
           .from("profiles")
@@ -1576,6 +1675,7 @@
           (currentProfile = await ensureProfile(e)),
           currentProfile)
         ) {
+          await syncCastleReward();
           if (t) {
             const e = document.getElementById("door");
             (e.classList.add("active"),
@@ -1600,6 +1700,7 @@
             refreshAvatarPreview(),
             refreshProfileWall(),
             applyWallTheme(currentUser.user_metadata?.wall_theme),
+            showCastleRewards(),
             await loadPosts());
         }
       }
