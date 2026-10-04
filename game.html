@@ -66,16 +66,19 @@
     function playerMove(i){if(locked||cells[i])return;place(i,'oren');if(finish('oren'))return;locked=true;statusEl.textContent='Chase is choosing where to strike…';setTimeout(chaseMove,520)}
     function chaseMove(){let pick=bestMove();place(pick,'chase');if(finish('chase'))return;playMoveVoice();locked=false;statusEl.textContent='Your turn. Chase is waiting.'}
     function bestMove(){for(const m of ['chase','oren'])for(const line of wins){const open=line.filter(i=>!cells[i]);const owned=line.filter(i=>cells[i]===m);if(open.length===1&&owned.length===2)return open[0]}if(!cells[4])return 4;const corners=[0,2,6,8].filter(i=>!cells[i]);if(corners.length)return corners[Math.floor(Math.random()*corners.length)];const open=cells.map((v,i)=>v?'':i).filter(v=>v!=='');return open[Math.floor(Math.random()*open.length)]}
-    function finish(mark){const line=winner(mark);if(line){locked=true;line.forEach(i=>grid.children[i].style.background=mark==='oren'?'rgba(147,42,211,.3)':'rgba(190,18,48,.3)');if(mark==='oren'){score.you++;statusEl.textContent='You beat Chase. He will not take that quietly.'}else{score.chase++;statusEl.textContent='Chase wins this round.';chaseSpeak('I knew you were a loser.')}updateScore();return true}if(draw()){locked=true;score.draw++;statusEl.textContent='A draw. Chase demands another round.';updateScore();return true}return false}
-    const chaseMoveLines=['Bad move, loser.',"You're not going to win. Keep trying.",'That was weak.','I can do this all day.'];
+    function finish(mark){const line=winner(mark);if(line){locked=true;line.forEach(i=>grid.children[i].style.background=mark==='oren'?'rgba(147,42,211,.3)':'rgba(190,18,48,.3)');if(mark==='oren'){score.you++;statusEl.textContent='You beat Chase. He will not take that quietly.'}else{score.chase++;statusEl.textContent='Chase wins this round.';playChaseAudio(chaseWinAudio)}updateScore();return true}if(draw()){locked=true;score.draw++;statusEl.textContent='A draw. Chase demands another round.';updateScore();return true}return false}
+    const chaseMoveAudio=['chase-bad-move.mp3','chase-keep-trying.mp3','chase-that-was-weak.mp3','chase-all-day.mp3'].map(src=>new Audio(src));
+    const chaseWinAudio=new Audio('chase-winner.mp3');
+    const allChaseAudio=[...chaseMoveAudio,chaseWinAudio];
     let chaseMoveIndex=0;
-    function getChaseVoice(){const voices=window.speechSynthesis?.getVoices?.()||[];const preferred=['Google US English','Microsoft David','Microsoft Mark','Daniel','Alex'];return preferred.map(name=>voices.find(v=>v.name.includes(name))).find(Boolean)||voices.find(v=>/male|david|mark|daniel|alex/i.test(v.name))||voices.find(v=>v.lang.startsWith('en'))||null}
-    function chaseSpeak(text){if(!sound||!window.speechSynthesis)return;window.speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(text);speech.voice=getChaseVoice();speech.lang='en-US';speech.rate=.9;speech.pitch=.72;speech.volume=1;window.speechSynthesis.speak(speech)}
-    function playMoveVoice(){chaseSpeak(chaseMoveLines[chaseMoveIndex]);chaseMoveIndex=(chaseMoveIndex+1)%chaseMoveLines.length}
+    allChaseAudio.forEach(clip=>clip.preload='auto');
+    function stopChaseAudio(){allChaseAudio.forEach(clip=>{clip.pause();clip.currentTime=0})}
+    function playChaseAudio(clip){if(!sound)return;stopChaseAudio();clip.play().catch(()=>{})}
+    function playMoveVoice(){playChaseAudio(chaseMoveAudio[chaseMoveIndex]);chaseMoveIndex=(chaseMoveIndex+1)%chaseMoveAudio.length}
     
     function updateScore(){youScore.textContent=score.you;chaseScore.textContent=score.chase;drawScore.textContent=score.draw}
-    function reset(){cells=Array(9).fill('');locked=false;[...grid.children].forEach(b=>{b.innerHTML='';b.disabled=false;b.classList.remove('impact');b.style.background=''});statusEl.textContent='Your move. Try not to embarrass yourself.'}
-    resetBtn.addEventListener('click',reset);soundBtn.addEventListener('click',()=>{sound=!sound;soundBtn.textContent=`Voice: ${sound?'ON':'OFF'}`;if(!sound&&window.speechSynthesis)window.speechSynthesis.cancel()});
+    function reset(){stopChaseAudio();cells=Array(9).fill('');locked=false;chaseMoveIndex=0;[...grid.children].forEach(b=>{b.innerHTML='';b.disabled=false;b.classList.remove('impact');b.style.background=''});statusEl.textContent='Your move. Try not to embarrass yourself.'}
+    resetBtn.addEventListener('click',reset);soundBtn.addEventListener('click',()=>{sound=!sound;soundBtn.textContent=`Voice: ${sound?'ON':'OFF'}`;if(!sound)stopChaseAudio()});
   </script>
 </body>
 </html>
