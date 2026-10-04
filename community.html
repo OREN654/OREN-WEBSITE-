@@ -1112,6 +1112,90 @@
       .reward-badge.active {
         display: inline-flex;
       }
+      .winner-forge {
+        display: none;
+        margin: 0 0 24px;
+        padding: clamp(18px, 4vw, 28px);
+        border: 1px solid rgba(222, 88, 255, 0.55);
+        border-radius: 18px;
+        background:
+          radial-gradient(
+            circle at 15% 0%,
+            rgba(160, 38, 210, 0.2),
+            transparent 38%
+          ),
+          radial-gradient(
+            circle at 90% 100%,
+            rgba(213, 22, 55, 0.18),
+            transparent 42%
+          ),
+          rgba(9, 3, 14, 0.94);
+        box-shadow: 0 0 34px rgba(143, 30, 184, 0.22);
+      }
+      .winner-forge.active {
+        display: block;
+      }
+      .winner-forge h3 {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 1.25rem;
+      }
+      .winner-forge p {
+        margin: 0 0 16px;
+        color: #d7c8df;
+        line-height: 1.55;
+      }
+      .winner-forge-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(240px, 1.1fr);
+        gap: 22px;
+        align-items: center;
+      }
+      .winner-preview {
+        position: relative;
+        min-height: 320px;
+        border: 1px solid rgba(242, 157, 255, 0.38);
+        border-radius: 14px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        background: #040206;
+        color: #aa94b5;
+      }
+      .winner-preview.ready:after {
+        content: "";
+        position: absolute;
+        inset: -35%;
+        border: 2px solid rgba(231, 71, 255, 0.4);
+        border-radius: 46%;
+        animation: winnerAura 5s linear infinite;
+        pointer-events: none;
+      }
+      .winner-preview canvas {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      @keyframes winnerAura {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .winner-actions {
+        display: grid;
+        gap: 11px;
+      }
+      .winner-actions input {
+        width: 100%;
+      }
+      .winner-actions .primary {
+        width: 100%;
+      }
+      .winner-note {
+        color: #bbaac4;
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
       .profile-wall[data-theme="bloodstone"] {
         border-color: #ed65ff;
         box-shadow:
@@ -1143,6 +1227,9 @@
         content: "BLOOD STONE FINDER";
       }
       @media (max-width: 760px) {
+        .winner-forge-grid {
+          grid-template-columns: 1fr;
+        }
         .theme-grid {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -1312,6 +1399,46 @@
                 >◆ BLOOD STONE FINDER</span
               ><span class="reward-badge" id="transformationBadge"></span>
             </div>
+            <section class="winner-forge" id="winnerForge">
+              <h3>THE BLOOD STONE CHOSE YOU</h3>
+              <p id="winnerForgeText">
+                Add your picture and reveal the form the Blood Stone gave you.
+                Nothing is posted until you approve it.
+              </p>
+              <div class="winner-forge-grid">
+                <div class="winner-preview" id="winnerPreview">
+                  Your winner portrait will appear here.
+                </div>
+                <div class="winner-actions">
+                  <label for="winnerPhoto">TAKE OR CHOOSE YOUR PICTURE</label>
+                  <input
+                    id="winnerPhoto"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    capture="user"
+                  />
+                  <button class="primary" id="transformWinner" type="button">
+                    Reveal My Transformation
+                  </button>
+                  <button
+                    class="primary hidden"
+                    id="approveWinner"
+                    type="button"
+                  >
+                    Approve and Post My Victory
+                  </button>
+                  <div class="winner-note">
+                    Your approved portrait becomes your profile-wall image and
+                    your victory is announced in the community feed.
+                  </div>
+                  <div
+                    class="message"
+                    id="winnerMessage"
+                    aria-live="polite"
+                  ></div>
+                </div>
+              </div>
+            </section>
             <div class="wall-picker">
               <h3>Choose Your Wall</h3>
               <p>Your selection stays with your OREN account.</p>
@@ -1527,6 +1654,16 @@
         };
         badge.textContent = labels[meta.transformation] || "";
         badge.classList.toggle("active", !!labels[meta.transformation]);
+        const forge = document.getElementById("winnerForge");
+        forge.classList.toggle(
+          "active",
+          !!meta.transformation && !meta.winner_created_at,
+        );
+        if (meta.transformation)
+          document.getElementById("winnerForgeText").textContent =
+            "You were chosen as " +
+            labels[meta.transformation] +
+            ". Add your picture to reveal your permanent winner portrait.";
         if (meta.blood_stone_unlocked)
           document.getElementById("themeMessage").textContent =
             "Blood Stone unlocked by completing the castle challenge.";
@@ -1544,6 +1681,173 @@
           currentUser = data.user;
           localStorage.removeItem("orenCastleReward");
         }
+      }
+      let winnerCanvas = null;
+      const winnerLabels = {
+        oren: "OREN BLOODBORN",
+        hunter: "HUNTER CLAN",
+        claw: "CLAW CLAN",
+        vampire: "VAMPIRE CLAN",
+      };
+      function imageFromFile(file) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => (URL.revokeObjectURL(image.src), resolve(image));
+          image.onerror = reject;
+          image.src = URL.createObjectURL(file);
+        });
+      }
+      function glow(ctx, color, blur = 20) {
+        ctx.shadowColor = color;
+        ctx.shadowBlur = blur;
+      }
+      async function makeWinnerPortrait(file, transformation) {
+        const image = await imageFromFile(file);
+        const canvas = document.createElement("canvas");
+        canvas.width = 720;
+        canvas.height = 900;
+        const ctx = canvas.getContext("2d");
+        const scale = Math.max(
+          canvas.width / image.width,
+          canvas.height / image.height,
+        );
+        const width = image.width * scale,
+          height = image.height * scale,
+          x = (canvas.width - width) / 2,
+          y = (canvas.height - height) / 2;
+        ctx.filter =
+          transformation === "hunter"
+            ? "contrast(1.16) saturate(.82) brightness(.82)"
+            : transformation === "claw"
+              ? "contrast(1.18) saturate(1.16) brightness(.86)"
+              : "contrast(1.2) saturate(.92) brightness(.8)";
+        ctx.drawImage(image, x, y, width, height);
+        ctx.filter = "none";
+        const shade = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        shade.addColorStop(0, "rgba(5,0,9,.08)");
+        shade.addColorStop(0.62, "rgba(7,0,12,.08)");
+        shade.addColorStop(1, "rgba(3,0,8,.88)");
+        ctx.fillStyle = shade;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        let face = { x: 190, y: 120, width: 340, height: 420 };
+        if ("FaceDetector" in window) {
+          try {
+            const faces = await new FaceDetector({
+              fastMode: true,
+              maxDetectedFaces: 1,
+            }).detect(image);
+            if (faces[0]) {
+              const b = faces[0].boundingBox;
+              face = {
+                x: x + b.x * scale,
+                y: y + b.y * scale,
+                width: b.width * scale,
+                height: b.height * scale,
+              };
+            }
+          } catch (error) {}
+        }
+        const eyeY = face.y + face.height * 0.42,
+          leftEye = face.x + face.width * 0.34,
+          rightEye = face.x + face.width * 0.66;
+        ctx.save();
+        if (transformation === "hunter") {
+          ctx.strokeStyle = "#53ff72";
+          ctx.lineWidth = 7;
+          glow(ctx, "#28ff59", 22);
+          for (let side of [-1, 1]) {
+            const sx = side < 0 ? face.x - 28 : face.x + face.width + 28;
+            ctx.beginPath();
+            ctx.moveTo(sx, face.y + face.height * 0.32);
+            ctx.lineTo(sx + side * 45, face.y + face.height * 0.48);
+            ctx.lineTo(sx - side * 5, face.y + face.height * 0.6);
+            ctx.lineTo(sx + side * 50, face.y + face.height * 0.76);
+            ctx.stroke();
+          }
+        }
+        const eyeColors =
+          transformation === "oren"
+            ? ["#c04cff", "#ff2948"]
+            : transformation === "hunter"
+              ? ["#63ff7b", "#63ff7b"]
+              : transformation === "claw"
+                ? ["#ffe05c", "#ffe05c"]
+                : ["#ff223f", "#ff223f"];
+        [leftEye, rightEye].forEach((ex, index) => {
+          ctx.fillStyle = eyeColors[index];
+          glow(ctx, eyeColors[index], 25);
+          ctx.beginPath();
+          ctx.ellipse(
+            ex,
+            eyeY,
+            Math.max(8, face.width * 0.026),
+            Math.max(4, face.width * 0.012),
+            0,
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
+        });
+        if (transformation === "vampire") {
+          ctx.fillStyle = "#fff5ed";
+          glow(ctx, "#ff2b45", 12);
+          const mouthY = face.y + face.height * 0.72;
+          for (let mx of [
+            face.x + face.width * 0.44,
+            face.x + face.width * 0.56,
+          ]) {
+            ctx.beginPath();
+            ctx.moveTo(mx - 6, mouthY);
+            ctx.lineTo(mx + 6, mouthY);
+            ctx.lineTo(mx, mouthY + 27);
+            ctx.closePath();
+            ctx.fill();
+          }
+        }
+        if (transformation === "claw") {
+          ctx.strokeStyle = "#ffd85a";
+          ctx.lineWidth = 5;
+          glow(ctx, "#ffad24", 15);
+          for (let i = 0; i < 3; i++) {
+            ctx.beginPath();
+            ctx.moveTo(
+              face.x + face.width * 0.72 + i * 11,
+              face.y + face.height * 0.28,
+            );
+            ctx.lineTo(
+              face.x + face.width * 0.62 + i * 11,
+              face.y + face.height * 0.58,
+            );
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+        const aura = ctx.createRadialGradient(360, 430, 80, 360, 430, 500);
+        aura.addColorStop(0, "transparent");
+        aura.addColorStop(0.72, "transparent");
+        aura.addColorStop(
+          1,
+          transformation === "hunter"
+            ? "rgba(36,255,83,.44)"
+            : transformation === "claw"
+              ? "rgba(255,190,35,.4)"
+              : "rgba(196,38,255,.48)",
+        );
+        ctx.fillStyle = aura;
+        ctx.fillRect(0, 0, 720, 900);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#fff";
+        ctx.font = "700 29px Georgia";
+        glow(ctx, "#d34cff", 18);
+        ctx.fillText("BLOOD STONE WINNER", 360, 800);
+        ctx.font = "700 20px Arial";
+        ctx.fillStyle = eyeColors[0];
+        ctx.fillText(winnerLabels[transformation], 360, 842);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "rgba(232,110,255,.85)";
+        ctx.lineWidth = 5;
+        ctx.strokeRect(13, 13, 694, 874);
+        return canvas;
       }
       const make = (e, t, a) => {
           const n = document.createElement(e);
@@ -1903,6 +2207,109 @@
             if (r) return setMessage(r.message, !0);
             await openMember(n.user, !0);
           }));
+      document
+        .getElementById("transformWinner")
+        .addEventListener("click", async () => {
+          const input = document.getElementById("winnerPhoto"),
+            file = input.files?.[0],
+            status = document.getElementById("winnerMessage"),
+            button = document.getElementById("transformWinner");
+          if (!file)
+            return (
+              (status.textContent = "Take or choose a picture first."),
+              void (status.className = "message error")
+            );
+          if (!file.type.startsWith("image/") || file.size > 6291456)
+            return (
+              (status.textContent = "Choose a JPG, PNG, or WebP under 6 MB."),
+              void (status.className = "message error")
+            );
+          button.disabled = true;
+          status.className = "message";
+          status.textContent =
+            "The Blood Stone is transforming your picture...";
+          try {
+            winnerCanvas = await makeWinnerPortrait(
+              file,
+              currentUser.user_metadata.transformation,
+            );
+            const preview = document.getElementById("winnerPreview");
+            preview.replaceChildren(winnerCanvas);
+            preview.classList.add("ready");
+            document.getElementById("approveWinner").classList.remove("hidden");
+            status.textContent =
+              "Your winner portrait is ready. Approve it to place it on your wall.";
+          } catch (error) {
+            status.textContent =
+              "That picture could not be transformed. Try another one.";
+            status.className = "message error";
+          }
+          button.disabled = false;
+        });
+      document
+        .getElementById("approveWinner")
+        .addEventListener("click", async () => {
+          if (!winnerCanvas || !currentUser) return;
+          const button = document.getElementById("approveWinner"),
+            status = document.getElementById("winnerMessage");
+          button.disabled = true;
+          status.className = "message";
+          status.textContent = "Placing your victory in the OREN world...";
+          const blob = await new Promise((resolve) =>
+            winnerCanvas.toBlob(resolve, "image/webp", 0.9),
+          );
+          const path =
+            currentUser.id + "/blood-stone-winner-" + Date.now() + ".webp";
+          const { error: uploadError } = await sb.storage
+            .from("profile-pictures")
+            .upload(path, blob, { contentType: "image/webp", upsert: false });
+          if (uploadError) {
+            button.disabled = false;
+            status.textContent = uploadError.message;
+            status.className = "message error";
+            return;
+          }
+          const createdAt = new Date().toISOString();
+          const { error: profileError } = await sb
+            .from("profiles")
+            .update({ avatar_path: path, updated_at: createdAt })
+            .eq("id", currentUser.id);
+          if (profileError) {
+            await sb.storage.from("profile-pictures").remove([path]);
+            button.disabled = false;
+            status.textContent = profileError.message;
+            status.className = "message error";
+            return;
+          }
+          const transformation = currentUser.user_metadata.transformation;
+          const { data: updated, error: metadataError } =
+            await sb.auth.updateUser({
+              data: { winner_image_path: path, winner_created_at: createdAt },
+            });
+          if (!metadataError && updated.user) currentUser = updated.user;
+          currentProfile = { ...currentProfile, avatar_path: path };
+          avatarCache[path] = URL.createObjectURL(blob);
+          const displayName =
+            currentProfile.display_name ||
+            currentProfile.username ||
+            "An OREN member";
+          await sb.from("posts").insert({
+            author_id: currentUser.id,
+            body:
+              "◆ BLOOD STONE WINNER ◆\n" +
+              displayName +
+              " found the Blood Stone and was chosen as " +
+              winnerLabels[transformation] +
+              ".",
+          });
+          refreshAvatarPreview();
+          refreshProfileWall();
+          showCastleRewards();
+          await loadPosts();
+          status.textContent = "Your winner portrait is now live on your wall.";
+          button.classList.add("hidden");
+          button.disabled = false;
+        });
       const postBody = document.getElementById("postBody");
       (attachEmojiPicker(document.getElementById("postEmojiTools"), postBody),
         postBody.addEventListener(
