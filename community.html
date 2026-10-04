@@ -900,6 +900,199 @@
           opacity: 0.35;
         }
       }
+      .wall-picker {
+        margin: -4px 0 24px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(14, 6, 23, 0.82);
+      }
+      .wall-picker h3 {
+        margin: 0 0 5px;
+      }
+      .wall-picker p {
+        margin: 0 0 14px;
+        color: var(--muted);
+      }
+      .theme-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+      }
+      .theme-choice {
+        position: relative;
+        min-height: 78px;
+        padding: 12px 8px;
+        border: 1px solid rgba(210, 169, 255, 0.3);
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 6px;
+        font-size: 0.78rem;
+      }
+      .theme-choice:before {
+        content: "";
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--swatch1), var(--swatch2));
+        box-shadow: 0 0 14px var(--swatch1);
+      }
+      .theme-choice.active {
+        outline: 2px solid #fff;
+        box-shadow: 0 0 22px var(--swatch1);
+      }
+      .theme-choice.locked {
+        opacity: 0.48;
+        cursor: not-allowed;
+      }
+      .theme-choice.locked:after {
+        content: "LOCKED";
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font: 700 0.55rem Arial;
+        color: #ffe9a6;
+      }
+      .theme-oren {
+        --swatch1: #a945ff;
+        --swatch2: #ff264d;
+      }
+      .theme-hunter {
+        --swatch1: #49ff9b;
+        --swatch2: #063b26;
+      }
+      .theme-claw {
+        --swatch1: #ffe44c;
+        --swatch2: #a75500;
+      }
+      .theme-vampire {
+        --swatch1: #ff243f;
+        --swatch2: #150006;
+      }
+      .theme-bloodstone {
+        --swatch1: #e45cff;
+        --swatch2: #ff183f;
+      }
+      .profile-wall[data-theme="hunter"] {
+        border-color: #55e99a;
+      }
+      .profile-wall[data-theme="hunter"]:before {
+        background: conic-gradient(
+          from 30deg,
+          transparent 0 19%,
+          rgba(41, 255, 139, 0.42) 24%,
+          transparent 31% 57%,
+          rgba(8, 92, 55, 0.5) 63%,
+          transparent 71%
+        );
+      }
+      .profile-wall[data-theme="hunter"] .wall-energy {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #42ff9a,
+          #fff,
+          #0b763f,
+          transparent
+        );
+        box-shadow: 0 0 20px #36ff91;
+      }
+      .profile-wall[data-theme="hunter"] .wall-avatar {
+        border-color: #74ffb5;
+        box-shadow:
+          0 0 0 7px rgba(1, 15, 9, 0.76),
+          0 0 38px #27e77e;
+      }
+      .profile-wall[data-theme="hunter"] .wall-status:after {
+        content: "HUNTER CLAN";
+      }
+      .profile-wall[data-theme="claw"] {
+        border-color: #eecf4a;
+      }
+      .profile-wall[data-theme="claw"]:before {
+        background: conic-gradient(
+          from 20deg,
+          transparent 0 18%,
+          rgba(255, 221, 43, 0.4) 24%,
+          transparent 32% 58%,
+          rgba(255, 120, 0, 0.34) 64%,
+          transparent 72%
+        );
+      }
+      .profile-wall[data-theme="claw"] .wall-energy {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #ffe52f,
+          #fff,
+          #ff8a00,
+          transparent
+        );
+        box-shadow: 0 0 20px #ffd83b;
+      }
+      .profile-wall[data-theme="claw"] .wall-avatar {
+        border-color: #ffe96d;
+        box-shadow:
+          0 0 0 7px rgba(18, 12, 0, 0.76),
+          0 0 38px #ffc62d;
+      }
+      .profile-wall[data-theme="claw"] .wall-status:after {
+        content: "CLAW CLAN";
+      }
+      .profile-wall[data-theme="vampire"] {
+        border-color: #df344a;
+      }
+      .profile-wall[data-theme="vampire"]:before {
+        background: conic-gradient(
+          from 20deg,
+          transparent 0 20%,
+          rgba(255, 24, 57, 0.46) 25%,
+          transparent 33% 57%,
+          rgba(72, 0, 10, 0.66) 64%,
+          transparent 72%
+        );
+      }
+      .profile-wall[data-theme="vampire"] .wall-energy {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #ff1f42,
+          #fff,
+          #75000e,
+          transparent
+        );
+        box-shadow: 0 0 22px #ff183e;
+      }
+      .profile-wall[data-theme="vampire"] .wall-avatar {
+        border-color: #ff5c71;
+        box-shadow:
+          0 0 0 7px rgba(17, 0, 3, 0.82),
+          0 0 42px #e81736;
+      }
+      .profile-wall[data-theme="vampire"] .wall-status:after {
+        content: "VAMPIRE CLAN";
+      }
+      .profile-wall[data-theme]:not([data-theme="oren"]) .wall-status {
+        font-size: 0;
+      }
+      .profile-wall[data-theme]:not([data-theme="oren"]) .wall-status:after {
+        font-size: 0.72rem;
+      }
+      .theme-message {
+        min-height: 22px;
+        margin-top: 10px;
+        color: #dcc6ef;
+        font-size: 0.85rem;
+      }
+      @media (max-width: 760px) {
+        .theme-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .theme-choice:last-child {
+          grid-column: 1/-1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1057,6 +1250,51 @@
                 <div class="wall-status">PURPLE / RED COMIC WALL</div>
               </div>
             </div>
+            <div class="wall-picker">
+              <h3>Choose Your Wall</h3>
+              <p>Your selection stays with your OREN account.</p>
+              <div class="theme-grid">
+                <button
+                  class="theme-choice theme-oren"
+                  type="button"
+                  data-theme="oren"
+                >
+                  OREN
+                </button>
+                <button
+                  class="theme-choice theme-hunter"
+                  type="button"
+                  data-theme="hunter"
+                >
+                  Hunter Clan
+                </button>
+                <button
+                  class="theme-choice theme-claw"
+                  type="button"
+                  data-theme="claw"
+                >
+                  Claw Clan
+                </button>
+                <button
+                  class="theme-choice theme-vampire"
+                  type="button"
+                  data-theme="vampire"
+                >
+                  Vampire
+                </button>
+                <button
+                  class="theme-choice theme-bloodstone locked"
+                  type="button"
+                  data-theme="bloodstone"
+                  disabled
+                >
+                  Blood Stone
+                </button>
+              </div>
+              <div class="theme-message" id="themeMessage" aria-live="polite">
+                Blood Stone unlocks after completing the castle challenge.
+              </div>
+            </div>
             <div class="owner-card" id="ownerCard">
               <span class="owner-role">Verified Owner · Official Creator</span>
               <h3 class="owner-title">OREN Creator Profile</h3>
@@ -1193,6 +1431,19 @@
           });
         }
       }
+      const wallThemes = ["oren", "hunter", "claw", "vampire"];
+      function applyWallTheme(theme) {
+        const chosen = wallThemes.includes(theme) ? theme : "oren";
+        document.getElementById("profileWall").dataset.theme = chosen;
+        document
+          .querySelectorAll(".theme-choice:not(.locked)")
+          .forEach((button) => {
+            const active = button.dataset.theme === chosen;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+        return chosen;
+      }
       const make = (e, t, a) => {
           const n = document.createElement(e);
           return (
@@ -1281,6 +1532,26 @@
           : "Pause Motion";
         wallMotionButton.setAttribute("aria-pressed", String(paused));
       });
+      document
+        .querySelectorAll(".theme-choice:not(.locked)")
+        .forEach((button) =>
+          button.addEventListener("click", async () => {
+            if (!currentUser) return;
+            const theme = applyWallTheme(button.dataset.theme);
+            const status = document.getElementById("themeMessage");
+            status.textContent = "Saving your wall...";
+            const { data, error } = await sb.auth.updateUser({
+              data: { wall_theme: theme },
+            });
+            if (error) {
+              status.textContent = error.message;
+              applyWallTheme(currentUser.user_metadata?.wall_theme);
+              return;
+            }
+            currentUser = data.user;
+            status.textContent = button.textContent + " wall selected.";
+          }),
+        );
       async function ensureProfile(e) {
         let { data: t } = await sb
           .from("profiles")
@@ -1328,6 +1599,7 @@
               .classList.toggle("active", isOwner(currentProfile)),
             refreshAvatarPreview(),
             refreshProfileWall(),
+            applyWallTheme(currentUser.user_metadata?.wall_theme),
             await loadPosts());
         }
       }
