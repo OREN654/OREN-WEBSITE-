@@ -1317,6 +1317,20 @@
         }
       }
     </style>
+  
+    <style>
+      .coloring-shell{position:relative;overflow:hidden;padding:clamp(18px,4vw,34px);border:1px solid rgba(255,153,49,.42);border-radius:22px;background:radial-gradient(circle at 50% 0,rgba(125,43,180,.22),transparent 35%),linear-gradient(145deg,#0a0610,#1c0c20);box-shadow:0 0 38px rgba(152,56,226,.2)}
+      .coloring-head{text-align:center}.coloring-kicker{color:#ffb044;letter-spacing:.2em;font-size:.72rem;text-transform:uppercase}.coloring-title{margin:.35rem 0;font-size:clamp(2rem,6vw,3.4rem);text-shadow:0 0 22px #9b49e8}.coloring-copy{max-width:680px;margin:0 auto 22px;color:#d9cce2;line-height:1.55}
+      .coloring-entrance{display:grid;place-items:center;min-height:520px;perspective:1100px}.coloring-entrance.opened{animation:fadeEntrance .65s 1.25s forwards}.pencil-mesh{position:relative;width:min(310px,78vw);height:210px;padding:0;border:0;background:transparent;filter:drop-shadow(0 0 24px rgba(255,132,31,.42));isolation:isolate}.mesh-core{position:absolute;inset:18px 35px 28px;border-radius:48% 52% 54% 46%/46% 45% 55% 54%;background:conic-gradient(from 20deg,#9c3cff,#ef294b,#ff9d27,#ffd74c,#32d27f,#438cff,#9c3cff);box-shadow:inset 0 0 34px rgba(255,255,255,.46),inset 0 -28px 35px rgba(105,31,0,.36),0 0 32px rgba(172,63,255,.5);animation:meshMorph 4.8s ease-in-out infinite,meshSpin 10s linear infinite;z-index:2}.mesh-core:before,.mesh-core:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.3);filter:blur(8px)}.mesh-core:before{width:72px;height:36px;left:48px;top:31px;transform:rotate(-20deg)}.mesh-core:after{width:42px;height:22px;right:45px;bottom:34px}.pencil-stick{position:absolute;z-index:1;width:22px;height:155px;bottom:24px;border-radius:10px 10px 4px 4px;transform-origin:bottom;background:linear-gradient(90deg,rgba(255,255,255,.28),var(--pencil),rgba(0,0,0,.28));box-shadow:0 0 14px var(--pencil)}.pencil-stick:before{content:"";position:absolute;top:-22px;left:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:23px solid var(--pencil)}.p1{--pencil:#9b4dff;left:48px;transform:rotate(-31deg)}.p2{--pencil:#f22950;left:87px;transform:rotate(-17deg)}.p3{--pencil:#ff9d25;left:132px;transform:rotate(-5deg)}.p4{--pencil:#ffd94f;right:130px;transform:rotate(8deg)}.p5{--pencil:#31d27d;right:84px;transform:rotate(19deg)}.p6{--pencil:#438cff;right:48px;transform:rotate(31deg)}
+      .mesh-label{position:absolute;z-index:4;left:50%;bottom:-7px;transform:translateX(-50%);width:max-content;color:#fff2cf;letter-spacing:.13em;text-transform:uppercase;font-size:.75rem;text-shadow:0 2px 6px #000}.color-drop{position:absolute;z-index:5;left:50%;bottom:25px;width:44px;height:58px;transform:translateX(-50%) scale(0);border-radius:55% 45% 62% 38%/68% 54% 46% 32%;background:radial-gradient(circle at 34% 25%,#fff0a6,#ff9b25 45%,#db4b19 76%);box-shadow:0 0 22px #ff8d23}
+      .color-book-cover{position:absolute;bottom:-145px;width:min(520px,92%);height:170px;border:6px solid #3c1c22;border-radius:15px 15px 7px 7px;background:linear-gradient(135deg,#22111c,#5d2833 55%,#160a12);box-shadow:0 16px 35px #000,0 0 25px rgba(158,67,234,.28);display:grid;place-items:center;color:#ffe4a0;letter-spacing:.22em;font-weight:900;text-shadow:0 0 12px #d149ff}.color-book-cover:after{content:"COLORING BOOK";display:block;font-size:.72rem;margin-top:48px;color:#ffc55f}.color-book-sigil{font-size:2.4rem;position:absolute;top:37px;color:#ff9b32}
+      .coloring-entrance.pouring .mesh-core{animation:meshPour .8s ease-in forwards}.coloring-entrance.pouring .color-drop{animation:dropColor .78s .48s cubic-bezier(.45,.05,.75,.45) forwards}.coloring-entrance.pouring .color-book-cover{animation:paintImpact .8s 1.08s ease forwards}
+      @keyframes meshMorph{50%{border-radius:56% 44% 43% 57%/52% 58% 42% 48%;transform:scale(1.04)}}@keyframes meshSpin{to{filter:hue-rotate(360deg)}}@keyframes meshPour{to{transform:scale(.88) translateY(14px);filter:saturate(1.3)}}@keyframes dropColor{0%{transform:translateX(-50%) scale(0);bottom:25px}18%{transform:translateX(-50%) scale(1);bottom:12px}100%{transform:translateX(-50%) scale(.72);bottom:-175px}}@keyframes paintImpact{45%{box-shadow:0 0 55px #ff982c,0 0 90px #a745ff;transform:rotateX(0)}100%{transform:rotateX(-72deg) translateY(38px);box-shadow:0 0 70px #ff8b27,0 0 110px #913eff}}@keyframes fadeEntrance{to{opacity:0;transform:scale(.88);display:none}}
+      .coloring-studio{display:none;margin-top:20px}.coloring-studio.active{display:block;animation:studioOpen .9s ease both}@keyframes studioOpen{from{opacity:0;transform:perspective(900px) rotateX(28deg) scale(.88)}to{opacity:1;transform:none}}
+      .coloring-book{padding:16px;border:10px solid #2d1720;border-radius:18px;background:#8a6d48;box-shadow:0 25px 55px #000,0 0 35px rgba(153,65,236,.32)}.coloring-pages{position:relative;background:linear-gradient(90deg,#efe4c9 0,#fffdf1 48.7%,#b99f74 49.7%,#7e6242 50%,#b99f74 50.3%,#fffdf1 51.3%,#efe4c9 100%);border-radius:10px;overflow:hidden;padding:10px;box-shadow:inset 0 0 26px rgba(73,42,24,.25)}#orenColoringArt{display:block;width:100%;height:auto;touch-action:manipulation}.paintable{cursor:pointer;transition:fill .18s,filter .18s}.paintable:hover{filter:drop-shadow(0 0 5px #a947ff)}
+      .color-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;padding:12px;border:1px solid rgba(205,144,255,.3);border-radius:13px;background:rgba(7,3,12,.86)}.color-swatches{display:flex;gap:8px;flex-wrap:wrap}.color-swatch{width:38px;height:38px;padding:0;border-radius:50%;background:var(--color);border:3px solid rgba(255,255,255,.38);box-shadow:0 0 10px var(--color)}.color-swatch.active{transform:scale(1.18);border-color:#fff;box-shadow:0 0 18px var(--color)}.tool-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}.coloring-message{min-height:24px;margin-top:10px;color:#ffd57c;text-align:center}.saved-gallery{margin-top:15px;padding:12px;border:1px solid rgba(192,137,255,.25);border-radius:12px;background:rgba(8,3,13,.7);color:#d8c9e2}.saved-gallery strong{color:#ffc65c}
+      @media(max-width:760px){.coloring-entrance{min-height:470px}.pencil-mesh{height:190px}.color-book-cover{bottom:-125px;height:150px}.coloring-book{padding:7px;border-width:7px}.coloring-pages{padding:4px}.tool-buttons{margin-left:0;width:100%}.tool-buttons button{flex:1}.color-swatch{width:34px;height:34px}}
+    </style>
   </head>
   <body>
     <div class="door" id="door"><div class="door-panel">◈</div></div>
@@ -1426,6 +1440,8 @@
               Community Feed</button
             ><button class="member-tab" data-view="crosswordView">
               Claw’s Memory</button
+            ><button class="member-tab" data-view="coloringView">
+              Coloring Book</button
             ><button class="member-tab" data-view="profileView">
               My Profile
             </button>
@@ -1471,6 +1487,34 @@
               <div class="hidden-claw" id="hiddenClaw">HIDDEN CLAW WORD: • • • •</div>
               <div class="claw-actions"><button class="primary" id="checkClaw">Bind My Answers</button><button id="clawHint">Ask Tygaria for a Hint</button><button id="resetClaw">Clear Trail</button></div>
               <div class="claw-book" id="clawBook" aria-live="polite"><div class="book-runes">THE CLAW REMEMBERS</div><h3>The Living Book Has Opened</h3><p>“Blood remembers what fate tries to bury. The Claw followed Oren long before Tygaria knew his name—and something inside the stone followed her back.”</p><p><strong>Claw Word discovered: CLAW</strong></p><button class="blood-close" id="closeClawBook" aria-label="Close the living OREN book">♥</button></div>
+            </div>
+          </section>
+
+          <section class="view hidden" id="coloringView">
+            <div class="coloring-shell">
+              <div class="coloring-head"><div class="coloring-kicker">OREN Living Art</div><h2 class="coloring-title">OREN Coloring Book</h2><p class="coloring-copy">Press the liquid mesh of pencil colors. Its orange-gold heart will fall, awaken the runes, and open the pages.</p></div>
+              <div class="coloring-entrance" id="coloringEntrance">
+                <button class="pencil-mesh" id="colorMeshTrigger" type="button" aria-label="Press the liquid pencil colors to open the OREN Coloring Book"><span class="pencil-stick p1"></span><span class="pencil-stick p2"></span><span class="pencil-stick p3"></span><span class="pencil-stick p4"></span><span class="pencil-stick p5"></span><span class="pencil-stick p6"></span><span class="mesh-core"></span><span class="color-drop"></span><span class="mesh-label">Press the Living Colors</span></button>
+                <div class="color-book-cover"><span class="color-book-sigil">◈ OREN ◈</span></div>
+              </div>
+              <div class="coloring-studio" id="coloringStudio">
+                <div class="coloring-book"><div class="coloring-pages">
+                  <svg id="orenColoringArt" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" aria-label="Coloring page featuring Oren, Tygaria, the Blood Stone, a gothic castle and gargoyle">
+                    <rect width="900" height="520" fill="#fffdf4"/>
+                    <g fill="none" stroke="#17131a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M450 18V502" stroke="#8b725c" stroke-width="3"/><path d="M28 40Q225 5 430 38V490Q230 458 28 492Z"/><path d="M470 38Q675 5 872 40V492Q670 458 470 490Z"/></g>
+                    <g class="paintable" fill="#fff" stroke="#17131a" stroke-width="5" stroke-linejoin="round"><path d="M96 177Q105 84 205 74Q306 83 312 180L276 164Q283 236 243 271H157Q116 236 124 162Z"/><path d="M119 139L145 77L174 111L205 61L228 112L278 83L287 151L248 132L220 153L182 126L151 156Z"/><path d="M142 271L111 423L294 423L260 271Q221 302 183 294Q156 289 142 271Z"/><path d="M129 314L75 372L101 399L158 350Z"/><path d="M266 314L329 365L305 397L244 351Z"/></g>
+                    <g fill="none" stroke="#17131a" stroke-width="5"><path d="M151 179Q170 163 188 178"/><path d="M218 178Q239 161 256 179"/><path d="M181 223Q204 237 229 221"/><path d="M160 189h24M224 189h24"/></g><g class="paintable" fill="#fff" stroke="#17131a" stroke-width="4"><ellipse cx="173" cy="189" rx="10" ry="13"/><ellipse cx="237" cy="189" rx="10" ry="13"/></g>
+                    <g class="paintable" fill="#fff" stroke="#17131a" stroke-width="5"><path d="M350 256L379 225L408 256L398 309L379 329L360 309Z"/><path d="M379 225V198M360 309L336 335M398 309L422 335"/></g><g fill="none" stroke="#17131a" stroke-width="4"><circle cx="379" cy="274" r="53"/><path d="M324 274H291M434 274H467M379 219V185M379 329V364"/></g>
+                    <g class="paintable" fill="#fff" stroke="#17131a" stroke-width="5" stroke-linejoin="round"><path d="M553 177Q562 88 661 78Q758 91 770 181L735 158Q742 230 702 270H614Q574 232 580 159Z"/><path d="M575 151L602 84L633 117L666 65L691 118L744 91L754 159L716 137L681 160L644 132L606 161Z"/><path d="M600 269L565 423L751 423L716 269Q674 301 638 295Q612 288 600 269Z"/><path d="M588 315L525 365L550 398L617 349Z"/><path d="M723 314L784 366L760 399L698 350Z"/></g>
+                    <g fill="none" stroke="#17131a" stroke-width="5"><path d="M609 180Q629 163 647 180"/><path d="M674 180Q695 161 714 180"/><path d="M637 224Q660 238 684 222"/><path d="M617 190h24M681 190h24"/></g><g class="paintable" fill="#fff" stroke="#17131a" stroke-width="4"><ellipse cx="629" cy="190" rx="10" ry="13"/><ellipse cx="693" cy="190" rx="10" ry="13"/></g>
+                    <g class="paintable" fill="#fff" stroke="#17131a" stroke-width="5"><path d="M485 173L506 92L526 173Z"/><path d="M525 173L551 64L577 173Z"/><path d="M574 173L597 103L618 173Z"/><path d="M478 173H627V292H478Z"/><path d="M531 292V224H570V292Z"/></g>
+                    <g class="paintable" fill="#fff" stroke="#17131a" stroke-width="5" stroke-linejoin="round"><path d="M779 264L817 213L850 265L838 308L808 323L781 302Z"/><path d="M790 238L776 208L805 224M838 237L858 207L838 221"/><path d="M794 303L777 353M832 305L851 353M782 353H797M839 353H858"/></g><g fill="none" stroke="#17131a" stroke-width="4"><circle cx="800" cy="270" r="4"/><circle cx="829" cy="270" r="4"/><path d="M802 291Q816 302 830 291"/></g>
+                    <g fill="#17131a" font-family="Georgia,serif" text-anchor="middle"><text x="205" y="462" font-size="26">OREN</text><text x="665" y="462" font-size="26">TYGARIA</text><text x="379" y="405" font-size="18">THE BLOOD STONE</text><text x="680" y="42" font-size="18">CASTLE OF MEMORY</text></g>
+                  </svg>
+                </div></div>
+                <div class="color-controls"><div class="color-swatches" aria-label="Color palette"><button class="color-swatch active" style="--color:#9b4dff" data-color="#9b4dff" aria-label="Purple"></button><button class="color-swatch" style="--color:#d9284c" data-color="#d9284c" aria-label="Blood red"></button><button class="color-swatch" style="--color:#111018" data-color="#111018" aria-label="Black"></button><button class="color-swatch" style="--color:#22b56d" data-color="#22b56d" aria-label="Green"></button><button class="color-swatch" style="--color:#e5b83e" data-color="#e5b83e" aria-label="Gold"></button><button class="color-swatch" style="--color:#ff9a2b" data-color="#ff9a2b" aria-label="Orange"></button><button class="color-swatch" style="--color:#fffdf4" data-color="#fffdf4" aria-label="White"></button></div><div class="tool-buttons"><button id="colorUndo" type="button">Undo</button><button id="colorErase" type="button">Erase</button><button id="colorClear" type="button">Clear</button><button class="primary" id="colorSave" type="button">Save</button></div></div>
+                <div class="coloring-message" id="coloringMessage" aria-live="polite">Choose a color, then tap part of the drawing.</div><div class="saved-gallery" id="coloringGallery"><strong>MY COLORING GALLERY</strong><div id="coloringGalleryCount">No finished pages saved yet.</div></div>
+              </div>
             </div>
           </section>
           <section class="view hidden" id="profileView">
@@ -2715,6 +2759,29 @@
         setClawStatus("The trail begins again. Trust what the darkness remembers.");
       });
       document.getElementById("closeClawBook").addEventListener("click", () => document.getElementById("clawBook").classList.remove("open"));
+
+
+      const coloringEntrance = document.getElementById("coloringEntrance");
+      const coloringStudio = document.getElementById("coloringStudio");
+      const coloringMessage = document.getElementById("coloringMessage");
+      const coloringArt = document.getElementById("orenColoringArt");
+      const coloringHistory = [];
+      let coloringInk = "#9b4dff";
+      function openColoringBook() {
+        if (coloringEntrance.classList.contains("pouring")) return;
+        coloringEntrance.classList.add("pouring");
+        coloringMessage.textContent = "The orange-gold color is awakening the book...";
+        setTimeout(() => { coloringEntrance.classList.add("opened"); coloringStudio.classList.add("active"); coloringStudio.scrollIntoView({behavior:"smooth",block:"start"}); }, 1450);
+      }
+      document.getElementById("colorMeshTrigger").addEventListener("click", openColoringBook);
+      document.querySelectorAll(".color-swatch").forEach((button) => button.addEventListener("click", () => { document.querySelectorAll(".color-swatch").forEach((item) => item.classList.remove("active")); button.classList.add("active"); coloringInk = button.dataset.color; coloringMessage.textContent = "Color selected. Tap a white section of the page."; }));
+      coloringArt.querySelectorAll(".paintable").forEach((shape) => shape.addEventListener("click", () => { const old = shape.getAttribute("fill") || "#fff"; if (old === coloringInk) return; coloringHistory.push({shape,old}); shape.setAttribute("fill",coloringInk); coloringMessage.textContent = "The page remembers every color."; }));
+      document.getElementById("colorUndo").addEventListener("click", () => { const step=coloringHistory.pop(); if(!step){coloringMessage.textContent="Nothing to undo yet.";return;} step.shape.setAttribute("fill",step.old); coloringMessage.textContent="The last color has been lifted."; });
+      document.getElementById("colorErase").addEventListener("click", () => { coloringInk="#fffdf4"; document.querySelectorAll(".color-swatch").forEach((item)=>item.classList.toggle("active",item.dataset.color==="#fffdf4")); coloringMessage.textContent="Eraser selected. Tap a colored section."; });
+      document.getElementById("colorClear").addEventListener("click", () => { coloringArt.querySelectorAll(".paintable").forEach((shape)=>shape.setAttribute("fill","#fff")); coloringHistory.length=0; coloringMessage.textContent="The page is clean again."; });
+      function updateColoringGallery(){let gallery=[];try{gallery=JSON.parse(localStorage.getItem("orenColoringGallery")||"[]");}catch(error){} document.getElementById("coloringGalleryCount").textContent=gallery.length?gallery.length+" finished page"+(gallery.length===1?"":"s")+" saved on this device.":"No finished pages saved yet.";}
+      document.getElementById("colorSave").addEventListener("click", () => { const copy=coloringArt.cloneNode(true); copy.setAttribute("xmlns","http://www.w3.org/2000/svg"); const svgText=new XMLSerializer().serializeToString(copy); const blob=new Blob([svgText],{type:"image/svg+xml"}); const url=URL.createObjectURL(blob); const image=new Image(); image.onload=()=>{const canvas=document.createElement("canvas");canvas.width=900;canvas.height=520;const context=canvas.getContext("2d");context.fillStyle="#fffdf4";context.fillRect(0,0,900,520);context.drawImage(image,0,0);const png=canvas.toDataURL("image/png");let gallery=[];try{gallery=JSON.parse(localStorage.getItem("orenColoringGallery")||"[]");}catch(error){} gallery.unshift({created_at:new Date().toISOString(),image:png});gallery=gallery.slice(0,5);try{localStorage.setItem("orenColoringGallery",JSON.stringify(gallery));}catch(error){}const link=document.createElement("a");link.download="oren-coloring-page.png";link.href=png;link.click();URL.revokeObjectURL(url);updateColoringGallery();coloringMessage.textContent="Saved to your OREN coloring gallery and downloaded.";};image.src=url; });
+      updateColoringGallery();
 
     </script>
   </body>
