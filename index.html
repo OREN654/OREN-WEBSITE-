@@ -679,11 +679,11 @@
     @keyframes closeCover{0%{transform:rotateY(-100deg);opacity:0}35%{transform:rotateY(-72deg);opacity:.72}100%{transform:rotateY(0);opacity:1}}
   
 /* OREN world atmosphere */
-body{position:relative;background:linear-gradient(180deg,#160622 0%,#09050f 38%,#040306 100%)}
+body{position:relative;background:#050307}
 body>header,body>main,body>footer{position:relative;z-index:2}
-.world-atmosphere{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1;opacity:.92}
-.world-atmosphere::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(116deg,transparent 0 85px,rgba(255,255,255,.012) 87px 89px),radial-gradient(circle at 14% 18%,rgba(126,34,206,.22),transparent 30%),radial-gradient(circle at 86% 63%,rgba(173,8,42,.17),transparent 32%);mix-blend-mode:screen}
-.world-atmosphere::after{content:"";position:absolute;left:-4%;right:-4%;bottom:-2%;height:34vh;background:linear-gradient(to top,rgba(0,0,0,.96) 0 18%,rgba(3,2,7,.84) 52%,transparent 100%);clip-path:polygon(0 100%,0 64%,4% 57%,6% 72%,9% 46%,11% 69%,14% 55%,17% 72%,20% 40%,22% 64%,25% 53%,28% 73%,32% 48%,35% 68%,38% 33%,41% 65%,44% 49%,48% 70%,51% 38%,54% 66%,58% 50%,61% 72%,65% 43%,68% 68%,72% 52%,75% 73%,79% 35%,82% 66%,86% 46%,89% 70%,93% 51%,96% 67%,100% 56%,100% 100%)}
+.world-atmosphere{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1;background:#050307 url("oren-world-background.jpg") center top/cover no-repeat;opacity:1}
+.world-atmosphere::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,1,7,.28) 0%,rgba(7,2,12,.48) 47%,rgba(2,1,4,.72) 100%),radial-gradient(ellipse at center 28%,rgba(4,2,8,.2),rgba(3,1,6,.52) 75%)}
+.world-atmosphere::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 24%,rgba(126,34,206,.16),transparent 31%),radial-gradient(circle at 88% 55%,rgba(190,8,42,.15),transparent 34%);mix-blend-mode:screen}
 .mist{position:absolute;width:70vw;height:34vw;min-height:230px;border-radius:50%;filter:blur(65px);opacity:.22;will-change:transform}
 .mist-purple{left:-28vw;top:8%;background:radial-gradient(ellipse,rgba(143,40,255,.8),transparent 66%);animation:mistDriftA 24s ease-in-out infinite alternate}
 .mist-red{right:-30vw;top:47%;background:radial-gradient(ellipse,rgba(255,24,63,.66),transparent 68%);animation:mistDriftB 29s ease-in-out infinite alternate}
@@ -691,7 +691,7 @@ body>header,body>main,body>footer{position:relative;z-index:2}
 .world-runes{position:absolute;inset:0;opacity:.11;background-image:radial-gradient(circle at 10% 31%,transparent 0 55px,rgba(192,109,255,.65) 56px 57px,transparent 58px),radial-gradient(circle at 91% 75%,transparent 0 70px,rgba(255,54,88,.55) 71px 72px,transparent 73px);filter:drop-shadow(0 0 8px currentColor)}
 @keyframes mistDriftA{from{transform:translate3d(-3%,0,0) scale(1)}to{transform:translate3d(13%,7%,0) scale(1.12)}}
 @keyframes mistDriftB{from{transform:translate3d(5%,4%,0) scale(1.08)}to{transform:translate3d(-14%,-5%,0) scale(.96)}}
-@media(max-width:700px){.world-atmosphere{opacity:.72}.mist{filter:blur(48px);opacity:.2}.world-atmosphere::after{height:25vh}.world-runes{opacity:.07}}
+@media(max-width:700px){.world-atmosphere{background-position:center top}.mist{filter:blur(48px);opacity:.18}.world-runes{opacity:.06}}
 @media(prefers-reduced-motion:reduce){.mist{animation:none!important}}
 
 </style>
