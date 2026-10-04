@@ -36,12 +36,41 @@
     .hint{text-align:center;color:#bda9c2;font:14px Arial,sans-serif;padding-top:8px}
     @keyframes arrive{0%{transform:scale(.1) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
     @keyframes impact{40%{transform:translateX(-5px)}70%{transform:translateX(4px)}}
+
+    .hidden{display:none!important}
+    .castle-gateway,.castle-game{width:min(1180px,96vw);margin:26px auto 48px}
+    .castle-gateway{position:relative;overflow:hidden;border:1px solid #5d267b;background:#09050d;box-shadow:0 24px 70px #000;border-radius:12px}
+    .castle-gateway img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;filter:brightness(.78)}
+    .gateway-overlay{position:absolute;inset:0;display:grid;place-content:end center;padding:clamp(22px,5vw,70px);background:linear-gradient(transparent 35%,rgba(4,1,7,.92));text-align:center}
+    .gateway-overlay h1{margin:0 0 8px;letter-spacing:.13em;text-shadow:0 0 22px #9e36ff;font-size:clamp(1.7rem,5vw,3.6rem)}
+    .gateway-overlay p{margin:0 0 18px;color:#e1ccea}
+    .castle-btn{font:800 1rem Georgia,serif;letter-spacing:.08em;color:white;border:1px solid #a649d2;background:linear-gradient(135deg,#3a0b50,#5d0c1f);padding:13px 20px;cursor:pointer;box-shadow:0 0 18px rgba(169,69,255,.25)}
+    .castle-btn:hover,.castle-btn:focus-visible{filter:brightness(1.35);outline:2px solid #efd7ff}
+    .castle-stage{position:relative;overflow:hidden;border:1px solid #71318e;background:#050307;border-radius:12px;box-shadow:0 24px 70px #000}
+    .castle-stage img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+    .room-hud{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px;background:linear-gradient(90deg,#100518,#21060d);border-top:1px solid #6a2680}
+    .room-name{font-weight:900;letter-spacing:.12em;font-size:clamp(1rem,3vw,1.45rem)}
+    .room-count{color:#c9afd2;font-family:Arial,sans-serif}
+    .room-controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px;background:#08050b}
+    .room-controls .castle-btn{min-width:130px}
+    .room-message{text-align:center;min-height:52px;padding:14px;color:#dcc6e4;background:#100715;border-top:1px solid #3c174a}
     @media(max-width:830px){.game-shell{grid-template-columns:1fr}.side{width:min(520px,94vw);margin:-28px auto 0;display:grid;grid-template-columns:120px 1fr;gap:12px}.portrait{grid-row:1/4}.side h2{text-align:left}.status{margin:0}.controls{grid-column:1/-1}.score{grid-column:1/-1}.hint{grid-column:1/-1}}
     @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
   <header class="topbar"><div class="brand">OREN</div><a class="back" href="index.html">← Return to OREN World</a></header>
+
+  <section class="castle-gateway" id="castleGateway" aria-label="Find the Blood Stone castle entrance">
+    <img src="castle-doors.png" alt="Ancient double doors leading into the OREN castle">
+    <div class="gateway-overlay"><h1>FIND THE BLOOD STONE</h1><p>Twelve rooms. Hidden traps. One stone.</p><button class="castle-btn" id="enterCastle" type="button">Enter the Castle</button></div>
+  </section>
+  <section class="castle-game hidden" id="castleGame" aria-label="Find the Blood Stone">
+    <div class="castle-stage"><img id="roomImage" src="castle-01-entrance-hall.png" alt="Entrance Hall"></div>
+    <div class="room-hud"><div class="room-name" id="roomName">Entrance Hall</div><div class="room-count" id="roomCount">Room 1 of 12</div></div>
+    <div class="room-message" id="roomMessage" aria-live="polite">The castle is silent. Search carefully.</div>
+    <div class="room-controls"><button class="castle-btn" id="prevRoom" type="button">Previous Room</button><button class="castle-btn" id="nextRoom" type="button">Next Room</button><button class="castle-btn" id="exitCastle" type="button">Exit Castle</button></div>
+  </section>
   <main class="game-shell">
     <section class="board-wrap" aria-label="OREN Blood and Fate game board"><div class="grid" id="grid"></div></section>
     <aside class="side">
@@ -54,6 +83,18 @@
     </aside>
   </main>
   <script>
+
+    const castleRooms=[
+      ['Entrance Hall','castle-01-entrance-hall.png'],['Portrait Gallery','castle-02-portrait-gallery.png'],['Library','castle-03-library.png'],['Dining Hall','castle-04-dining-hall.png'],['Kitchen','castle-05-kitchen.png'],['Armory','castle-06-armory.png'],['Chapel','castle-07-chapel.png'],['Dungeon','castle-08-dungeon.png'],['Tower Staircase','castle-09-tower-staircase.png'],['Upper Chamber','castle-10-upper-chamber.png'],['Hidden Passage','castle-11-hidden-passage.png'],['Stone Chamber','castle-12-stone-chamber.png']
+    ];
+    const castleGateway=document.querySelector('#castleGateway'),castleGame=document.querySelector('#castleGame'),chaseGame=document.querySelector('.game-shell');
+    const roomImage=document.querySelector('#roomImage'),roomName=document.querySelector('#roomName'),roomCount=document.querySelector('#roomCount'),roomMessage=document.querySelector('#roomMessage');
+    let roomIndex=0;
+    function showRoom(index){roomIndex=(index+castleRooms.length)%castleRooms.length;const room=castleRooms[roomIndex];roomImage.src=room[1];roomImage.alt=room[0];roomName.textContent=room[0];roomCount.textContent='Room '+(roomIndex+1)+' of '+castleRooms.length;roomMessage.textContent=roomIndex===0?'The castle is silent. Search carefully.':'A faint aura lingers here. The Blood Stone may be nearer—or farther away.';}
+    document.querySelector('#enterCastle').addEventListener('click',()=>{castleGateway.classList.add('hidden');chaseGame.classList.add('hidden');castleGame.classList.remove('hidden');showRoom(0);window.scrollTo({top:0,behavior:'smooth'});});
+    document.querySelector('#prevRoom').addEventListener('click',()=>showRoom(roomIndex-1));
+    document.querySelector('#nextRoom').addEventListener('click',()=>showRoom(roomIndex+1));
+    document.querySelector('#exitCastle').addEventListener('click',()=>{castleGame.classList.add('hidden');castleGateway.classList.remove('hidden');chaseGame.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});});
     const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
     const grid=document.querySelector('#grid'),statusEl=document.querySelector('#status');
     const resetBtn=document.querySelector('#resetBtn'),soundBtn=document.querySelector('#soundBtn');
