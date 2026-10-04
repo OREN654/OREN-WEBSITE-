@@ -422,6 +422,35 @@
           0 0 24px rgba(255, 49, 85, 0.72),
           0 0 38px rgba(169, 69, 255, 0.6);
       }
+      .castle-stage.attuned .aura-cursor {
+        width: 94px;
+        height: 94px;
+        filter: blur(1px) brightness(1.2);
+      }
+      .castle-stage.guided .aura-cursor {
+        width: 116px;
+        height: 116px;
+        box-shadow:
+          0 0 26px #d766ff,
+          0 0 54px rgba(255, 38, 77, 0.72);
+      }
+      .castle-stage.guided .hotspot:not(.path):before {
+        opacity: 0.42;
+      }
+      .castle-stage.guided .hotspot.path:before,
+      .castle-stage.guided .hotspot.wall:before {
+        opacity: 1;
+        filter: blur(1px) brightness(1.65);
+      }
+      .castle-stage.revealed .hotspot.path:before,
+      .castle-stage.revealed .hotspot.wall:before {
+        inset: 12%;
+        outline: 2px solid rgba(255, 210, 255, 0.82);
+        animation-duration: 0.68s;
+        box-shadow:
+          0 0 34px #d866ff,
+          0 0 62px #ff294e;
+      }
       .discovery {
         position: absolute;
         inset: 0;
@@ -1058,6 +1087,7 @@
       const searched = new Set();
       let searchStarted = 0,
         guidanceTimer = null,
+        guidanceStage = 0,
         wallOpened = false,
         stoneFound = false;
       const transformations = ["oren", "hunter", "claw", "vampire"];
@@ -1091,16 +1121,26 @@
           "Blood Stone Wall unlocked. Your Blood Stone Finder badge is waiting in the OREN community.";
       }
       function setClue() {
-        const heat = roomHeat[roomIndex];
+        const guidanceBonus =
+          guidanceStage === 1
+            ? 6
+            : guidanceStage === 2
+              ? 12
+              : guidanceStage === 3
+                ? 18
+                : 0;
+        const heat = Math.min(100, roomHeat[roomIndex] + guidanceBonus);
         document.querySelector("#clueFill").style.width = heat + "%";
         document.querySelector("#clueLabel").textContent =
-          heat < 25
-            ? "COLD"
-            : heat < 55
-              ? "WARM"
-              : heat < 85
-                ? "HOT"
-                : "BURNING";
+          guidanceStage === 3 && roomIndex === 11
+            ? "FOUND"
+            : heat < 25
+              ? "COLD"
+              : heat < 55
+                ? "WARM"
+                : heat < 85
+                  ? "HOT"
+                  : "BURNING";
       }
       function renderHotspots() {
         hotspotLayer.innerHTML = "";
@@ -1160,6 +1200,7 @@
         b.style.cssText = "left:42%;top:38%;width:16%;height:34%";
         b.addEventListener("click", () => {
           stoneFound = true;
+          clearInterval(guidanceTimer);
           grantCastleReward();
           castleStage.classList.remove("glass-found");
           roomMessage.textContent =
@@ -1207,17 +1248,46 @@
                 : "The Blood Stone is near. The walls feel alive.";
         setClue();
         renderHotspots();
+        updateGuidance(true);
+      }
+      function guidanceLevel() {
+        const elapsed = searchStarted ? Date.now() - searchStarted : 0;
+        if (elapsed >= 15 * 60 * 1000) return 3;
+        if (elapsed >= 10 * 60 * 1000) return 2;
+        if (elapsed >= 5 * 60 * 1000) return 1;
+        return 0;
+      }
+      function guidanceMessage(stage) {
+        if (stage === 3)
+          return roomIndex === 11
+            ? "The Blood Stone is directly behind the sealed wall. Touch the strongest red-purple pulse."
+            : "The castle yields. Follow the brightest passage toward " +
+                castleRooms[Math.min(roomIndex + 1, 11)][0] +
+                ".";
+        if (stage === 2)
+          return roomIndex === 11
+            ? "The aura is burning. One wall in this chamber is not what it seems."
+            : "The Blood Stone senses your search. Follow the red-purple path flicker into the rooms ahead.";
+        if (stage === 1)
+          return "Your aura is sharpening. Searchable objects are beginning to flicker more clearly.";
+        return "";
+      }
+      function updateGuidance(announce = true) {
+        const nextStage = guidanceLevel();
+        const changed = nextStage !== guidanceStage;
+        guidanceStage = nextStage;
+        castleStage.classList.toggle("attuned", guidanceStage >= 1);
+        castleStage.classList.toggle("guided", guidanceStage >= 2);
+        castleStage.classList.toggle("revealed", guidanceStage >= 3);
+        setClue();
+        if ((announce || changed) && guidanceStage)
+          roomMessage.textContent = guidanceMessage(guidanceStage);
       }
       function beginGuidance() {
-        clearTimeout(guidanceTimer);
-        guidanceTimer = setTimeout(
-          () => {
-            castleStage.classList.add("guided");
-            roomMessage.textContent =
-              "The Blood Stone senses your search. The strongest flicker marks the path.";
-          },
-          10 * 60 * 1000,
-        );
+        clearInterval(guidanceTimer);
+        guidanceStage = 0;
+        updateGuidance(false);
+        guidanceTimer = setInterval(() => updateGuidance(false), 30 * 1000);
       }
       document.querySelector("#enterCastle").addEventListener("click", () => {
         castleGateway.classList.add("hidden");
@@ -1235,7 +1305,7 @@
         .querySelector("#nextRoom")
         .addEventListener("click", () => showRoom(roomIndex + 1));
       document.querySelector("#exitCastle").addEventListener("click", () => {
-        clearTimeout(guidanceTimer);
+        clearInterval(guidanceTimer);
         castleGame.classList.add("hidden");
         castleGateway.classList.remove("hidden");
         chaseGame.classList.remove("hidden");
@@ -1245,8 +1315,14 @@
         searched.clear();
         wallOpened = false;
         stoneFound = false;
+        searchStarted = Date.now();
         document.querySelector("#discovery").classList.remove("active");
-        castleStage.classList.remove("guided", "glass-found");
+        castleStage.classList.remove(
+          "attuned",
+          "guided",
+          "revealed",
+          "glass-found",
+        );
         showRoom(0);
         beginGuidance();
       });
