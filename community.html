@@ -2334,15 +2334,15 @@
                 a = make("div", "comment-meta"),
                 n = r[e.author_id],
                 s = make("div", "author-wrap");
-              (s.append(
+              s.append(
                 avatarEl(n),
                 make("span", "author", authorName(n, e.author_id)),
-              ),
-                isOwner(n) && s.append(officialBadge()),
-                a.append(s, make("time", "time", formatTime(e.created_at))),
-                t.append(a, renderRichBody("comment-body", e.body));
-                if (currentUser && e.author_id !== currentUser.id) { const give = make("button", "small blood-offer-button", "Give Blood"); give.addEventListener("click", () => giveBlood(e.post_id, e.author_id, authorName(n, e.author_id), give)); t.append(give); }
-                o.append(t));
+              );
+              if (isOwner(n)) s.append(officialBadge());
+              a.append(s, make("time", "time", formatTime(e.created_at)));
+              t.append(a, renderRichBody("comment-body", e.body));
+              if (currentUser && e.author_id !== currentUser.id) { const give = make("button", "small blood-offer-button", "Give Blood"); give.addEventListener("click", () => giveBlood(e.post_id, e.author_id, authorName(n, e.author_id), give)); t.append(give); }
+              o.append(t);
             })
           : o.append(make("div", "empty", "No comments yet.")),
           t.append(o));
