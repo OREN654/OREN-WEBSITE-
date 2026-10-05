@@ -641,6 +641,23 @@
           padding: 19px;
         }
       }
+
+      .blood-offer-button { border-color: rgba(225,58,85,.55); color:#ffd6dd; background:linear-gradient(180deg,rgba(93,14,36,.72),rgba(35,6,20,.86)); }
+      .blood-offer-button:hover { box-shadow:0 0 18px rgba(232,58,85,.45); transform:translateY(-1px); }
+      .blood-offering-card { position:relative; margin:12px 0; padding:14px 16px 14px 72px; min-height:88px; border:1px solid rgba(232,58,85,.5); border-radius:16px; background:radial-gradient(circle at 18% 50%,rgba(139,27,58,.38),transparent 32%),linear-gradient(135deg,rgba(38,7,26,.94),rgba(22,8,42,.94)); box-shadow:inset 0 0 24px rgba(160,25,65,.14),0 0 18px rgba(114,42,183,.18); overflow:hidden; }
+      .blood-glass { position:absolute; left:20px; top:16px; width:34px; height:51px; border:2px solid rgba(255,218,228,.72); border-top:0; border-radius:4px 4px 12px 12px; transform:perspective(80px) rotateX(-4deg); box-shadow:0 0 14px rgba(232,58,85,.5); overflow:hidden; transition:.8s ease; }
+      .blood-glass:before { content:""; position:absolute; left:3px; right:3px; bottom:3px; height:72%; border-radius:2px 2px 8px 8px; background:linear-gradient(#ec3152,#76051f); box-shadow:inset 0 8px 8px rgba(255,120,139,.23),0 0 12px #d92248; transition:height 1.8s ease; }
+      .blood-glass:after { content:""; position:absolute; left:-5px; top:-2px; width:42px; height:5px; border:2px solid rgba(255,218,228,.75); border-radius:50%; }
+      .blood-offering-card.receiving .blood-glass { animation:bloodRise 2.3s ease both; }
+      .blood-offering-card.receiving .blood-glass:before,.blood-offering-card.received .blood-glass:before { height:0; }
+      .blood-offering-card.received { border-color:rgba(155,92,255,.5); }
+      .blood-offering-title { color:#ff9aae; font-weight:700; letter-spacing:.05em; }
+      .blood-offering-note { color:var(--muted); font-size:.88rem; margin:4px 0 9px; }
+      .blood-ledger { display:flex; gap:9px; flex-wrap:wrap; margin-top:9px; }
+      .blood-ledger span { padding:5px 9px; border:1px solid rgba(232,58,85,.35); border-radius:999px; background:rgba(50,7,28,.6); color:#ffd5dd; font-size:.78rem; }
+      .blood-toast { position:fixed; right:18px; bottom:18px; z-index:80; max-width:330px; padding:15px 18px; border:1px solid rgba(232,58,85,.65); border-radius:15px; background:rgba(25,5,19,.97); box-shadow:0 0 30px rgba(232,58,85,.4); color:#ffe9ee; animation:toastIn .35s ease; }
+      @keyframes bloodRise { 0%{transform:translateY(0)} 35%{transform:translateY(-18px) scale(1.08);filter:drop-shadow(0 0 12px #e83a55)} 75%{transform:translateY(-12px) rotate(-9deg) scale(1.08)} 100%{transform:translateY(0)} }
+      @keyframes toastIn { from{opacity:0;transform:translateY(18px)} }
     </style>
     <style>
       .profile-wall {
@@ -2182,6 +2199,7 @@
             refreshProfileWall(),
             applyWallTheme(currentUser.user_metadata?.wall_theme),
             showCastleRewards(),
+            updateBloodLedger(),
             await loadPosts());
         }
       }
@@ -2195,6 +2213,41 @@
       }
       function authorName(e, t) {
         return e?.display_name || e?.username || "Member " + t.slice(0, 6);
+      }
+
+      const BLOOD_MARK = "[[OREN_BLOOD_OFFERING|";
+      function bloodLedger() {
+        try { return JSON.parse(localStorage.getItem("orenBloodLedger") || '{"given":0,"received":0}'); }
+        catch(e) { return {given:0,received:0}; }
+      }
+      function saveBloodLedger(data) { localStorage.setItem("orenBloodLedger", JSON.stringify(data)); updateBloodLedger(); }
+      function updateBloodLedger() {
+        const head=document.querySelector(".member-head > div:first-child"); if(!head) return;
+        let box=document.getElementById("bloodLedger"); if(!box){box=make("div","blood-ledger");box.id="bloodLedger";head.append(box);}
+        const data=bloodLedger(); box.innerHTML="<span>Blood Given: "+data.given+"</span><span>Blood Received: "+data.received+"</span>";
+      }
+      function bloodToast(message){const old=document.querySelector(".blood-toast");if(old)old.remove();const toast=make("div","blood-toast",message);document.body.append(toast);setTimeout(()=>toast.remove(),4200);}
+      function parseBloodOffering(body){if(!body || !body.startsWith(BLOOD_MARK)) return null;const end=body.indexOf("]]",BLOOD_MARK.length);if(end<0)return null;const parts=body.slice(BLOOD_MARK.length,end).split("|");return {targetId:parts[0],targetName:decodeURIComponent(parts[1]||"Member")};}
+      async function giveBlood(postId,targetId,targetName,button){
+        if(!currentUser || targetId===currentUser.id)return;
+        button.disabled=true;button.textContent="Offering...";
+        const body=BLOOD_MARK+targetId+"|"+encodeURIComponent(targetName)+"]]";
+        const {error}=await sb.from("comments").insert({post_id:postId,author_id:currentUser.id,body});
+        button.disabled=false;button.textContent="Give Blood";
+        if(error){alert("The Blood Offering could not be delivered: "+error.message);return;}
+        const data=bloodLedger();data.given++;saveBloodLedger(data);bloodToast("Your Blood Offering was delivered to "+targetName+".");
+      }
+      function playGulps(){
+        const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const ctx=new C();
+        [0,.42,.84,1.26].forEach((delay)=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),filter=ctx.createBiquadFilter();osc.type="sine";osc.frequency.setValueAtTime(150,ctx.currentTime+delay);osc.frequency.exponentialRampToValueAtTime(72,ctx.currentTime+delay+.22);filter.type="lowpass";filter.frequency.value=420;gain.gain.setValueAtTime(.0001,ctx.currentTime+delay);gain.gain.exponentialRampToValueAtTime(.34,ctx.currentTime+delay+.025);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+delay+.28);osc.connect(filter);filter.connect(gain);gain.connect(ctx.destination);osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+.3);});
+      }
+      function renderBloodOffering(record,sender){
+        const info=parseBloodOffering(record.body),card=make("div","blood-offering-card"),glass=make("div","blood-glass"),title=make("div","blood-offering-title",authorName(sender,record.author_id)+" offered blood to "+info.targetName),note=make("div","blood-offering-note","A Blood Offering waits in the dark."),received=localStorage.getItem("orenBloodReceived:"+record.id)==="1";
+        card.append(glass,title,note);
+        if(received){card.classList.add("received");card.append(make("span","small","Received"));}
+        else if(currentUser && info.targetId===currentUser.id){const take=make("button","primary small","Receive Offering");take.addEventListener("click",()=>{take.disabled=true;card.classList.add("receiving");note.textContent="gulp... gulp... gulp... gulp...";playGulps();setTimeout(()=>{card.classList.remove("receiving");card.classList.add("received");take.textContent="Received";localStorage.setItem("orenBloodReceived:"+record.id,"1");const data=bloodLedger();data.received++;saveBloodLedger(data);bloodToast("The Blood Offering has entered your profile aura.");},1900);});card.append(take);setTimeout(()=>bloodToast("Someone has left you a Blood Offering."),350);}
+        else card.append(make("span","small",info.targetId===currentUser?.id?"Received":"Awaiting recipient"));
+        return card;
       }
       async function loadPosts() {
         const e = document.getElementById("feed");
@@ -2244,7 +2297,10 @@
           a.append(n, renderRichBody("post-body", e.body)));
         const o = make("div", "post-actions"),
           s = make("button", "small", "Comments");
-        (o.append(s), a.append(o));
+        const bloodButton = make("button", "small blood-offer-button", "Give Blood");
+        if (currentUser && e.author_id === currentUser.id) bloodButton.disabled = true;
+        bloodButton.addEventListener("click", () => giveBlood(e.id, e.author_id, authorName(t, e.author_id), bloodButton));
+        (o.append(s, bloodButton), a.append(o));
         const i = make("div", "comments hidden");
         return (
           s.addEventListener("click", async () => {
@@ -2272,6 +2328,8 @@
         const o = make("div", "comment-list");
         (a?.length
           ? a.forEach((e) => {
+              const bloodInfo = parseBloodOffering(e.body);
+              if (bloodInfo) { o.append(renderBloodOffering(e, r[e.author_id])); return; }
               const t = make("div", "comment"),
                 a = make("div", "comment-meta"),
                 n = r[e.author_id],
@@ -2282,7 +2340,8 @@
               ),
                 isOwner(n) && s.append(officialBadge()),
                 a.append(s, make("time", "time", formatTime(e.created_at))),
-                t.append(a, renderRichBody("comment-body", e.body)),
+                t.append(a, renderRichBody("comment-body", e.body));
+                if (currentUser && e.author_id !== currentUser.id) { const give = make("button", "small blood-offer-button", "Give Blood"); give.addEventListener("click", () => giveBlood(e.post_id, e.author_id, authorName(n, e.author_id), give)); t.append(give); }
                 o.append(t));
             })
           : o.append(make("div", "empty", "No comments yet.")),
