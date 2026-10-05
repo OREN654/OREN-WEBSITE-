@@ -1281,13 +1281,10 @@
       .claw-kicker{color:#e3c65d;letter-spacing:.18em;text-transform:uppercase;font-size:.72rem}.claw-title{margin:.25rem 0 .4rem;font-size:clamp(1.8rem,5vw,3.2rem);text-shadow:0 0 22px rgba(167,77,255,.45)}
       .claw-intro{margin:0;color:#d8cbe2;line-height:1.55}.claw-status{position:relative;margin:18px 0;padding:13px 16px;border-left:3px solid #e2be48;background:rgba(6,3,10,.7);color:#f4db83;font-style:italic;min-height:48px}
       .claw-progress{position:relative;height:10px;border:1px solid rgba(197,137,255,.35);border-radius:99px;background:#09040e;overflow:hidden;margin:0 0 23px}.claw-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#7028ba,#d3264b,#f1cc54);box-shadow:0 0 17px #bc48ff;transition:width .5s ease}
-      .clue-list{position:relative;display:grid;gap:12px}.clue-card{position:relative;display:grid;grid-template-columns:44px 1fr minmax(120px,230px);gap:12px;align-items:center;padding:13px;border:1px solid rgba(183,128,229,.23);border-radius:13px;background:rgba(10,5,16,.82);overflow:hidden}.clue-number{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;border:1px solid #8445b5;color:#e5caff;font-weight:800}.clue-text{line-height:1.35;color:#eadff0}.claw-answer{text-transform:uppercase;letter-spacing:.13em;padding:10px 12px!important;text-align:center;font-weight:800}.clue-card.solved{border-color:rgba(241,199,66,.62);box-shadow:inset 0 0 24px rgba(136,45,188,.16)}
-      .answer-chain{position:absolute;left:-110%;right:auto;top:50%;width:108%;height:12px;transform:translateY(-50%);opacity:0;background:repeating-linear-gradient(90deg,#211725 0 8px,#ba61ff 9px 11px,#381540 12px 20px,#ec395d 21px 23px);border:2px solid #0b080d;border-radius:99px;box-shadow:0 0 10px #a13bee;pointer-events:none}.clue-card.solved .answer-chain{animation:bindAnswer .72s ease forwards}.clue-card.wrong{animation:chainRattle .34s linear}.clue-card.wrong .claw-answer{border-color:#ec3e5d;box-shadow:0 0 12px rgba(236,62,93,.34)}
-      .claw-lock{position:absolute;right:8px;top:50%;transform:translateY(-50%) scale(0);z-index:3;width:28px;height:28px;border-radius:7px;background:#1a111d;border:2px solid #e0bb43;color:#f4da78;display:grid;place-items:center;box-shadow:0 0 13px #a43fff}.clue-card.solved .claw-lock{animation:lockSnap .35s .6s forwards}
-      @keyframes bindAnswer{0%{left:-110%;opacity:0}18%{opacity:.92}100%{left:-4%;opacity:.58}}@keyframes lockSnap{to{transform:translateY(-50%) scale(1)}}@keyframes chainRattle{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+      .crossword-layout{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr);gap:24px;align-items:start}.crossword-board-wrap{min-width:0}.crossword-board{--gap:2px;position:relative;display:grid;grid-template-columns:repeat(13,minmax(0,1fr));grid-template-rows:repeat(12,minmax(0,1fr));gap:var(--gap);width:100%;max-width:650px;aspect-ratio:13/12;margin:auto;padding:8px;border:2px solid rgba(226,190,72,.48);border-radius:14px;background:linear-gradient(145deg,#020104,#120718);box-shadow:inset 0 0 34px #000,0 0 25px rgba(139,49,201,.2);overflow:hidden}.crossword-cell{position:relative;z-index:2;width:100%;height:100%;min-width:0;padding:0!important;border:1px solid rgba(211,177,91,.72)!important;border-radius:3px!important;background:linear-gradient(145deg,#ead8af,#bfa77d)!important;color:#1b0d18!important;text-align:center;font:800 clamp(.72rem,2.6vw,1.25rem)/1 Georgia,serif;text-transform:uppercase;box-shadow:inset 0 0 8px rgba(54,20,42,.28)}.crossword-cell:focus{outline:2px solid #b54eff;outline-offset:-2px;box-shadow:inset 0 0 7px #fff,0 0 12px #a33cff}.crossword-cell.word-focus{background:linear-gradient(145deg,#ffe8a2,#cda969)!important}.crossword-cell.solved-letter{color:#fff1a0!important;text-shadow:0 0 7px #ffbc27;background:linear-gradient(145deg,#4e253d,#170a1a)!important}.crossword-cell.wrong-letter{animation:chainRattle .34s linear;border-color:#ec3e5d!important}.cell-number{position:absolute;z-index:5;left:2px;top:1px;color:#4a173b;font:700 clamp(.42rem,1.2vw,.62rem)/1 Arial,sans-serif;pointer-events:none}.crossword-chain-layer{position:absolute;z-index:4;inset:8px;display:grid;grid-template-columns:repeat(13,minmax(0,1fr));grid-template-rows:repeat(12,minmax(0,1fr));gap:var(--gap);pointer-events:none}.grid-chain{position:relative;align-self:center;justify-self:stretch;height:12px;opacity:.72;border:2px solid #08050b;border-radius:99px;background:repeating-radial-gradient(ellipse at center,#c056ff 0 3px,#211225 4px 8px,#e72d55 9px 11px,#160d19 12px 16px);box-shadow:0 0 8px #9d37e8,0 0 14px rgba(232,45,85,.5);animation:chainCross .72s cubic-bezier(.2,.8,.2,1) both}.grid-chain.down{width:12px;height:auto;justify-self:center;align-self:stretch;background:repeating-radial-gradient(ellipse at center,#c056ff 0 3px,#211225 4px 8px,#e72d55 9px 11px,#160d19 12px 16px);animation-name:chainDrop}.grid-chain:after{content:"♢";position:absolute;right:-8px;top:50%;width:24px;height:24px;display:grid;place-items:center;transform:translateY(-50%);border:2px solid #e0bb43;border-radius:7px;background:#1a111d;color:#f4da78;box-shadow:0 0 13px #a43fff;font-size:.8rem}.grid-chain.down:after{right:auto;left:50%;top:auto;bottom:-8px;transform:translateX(-50%)}@keyframes chainCross{from{clip-path:inset(0 100% 0 0);filter:brightness(2)}to{clip-path:inset(0 0 0 0)}}@keyframes chainDrop{from{clip-path:inset(0 0 100% 0);filter:brightness(2)}to{clip-path:inset(0 0 0 0)}}.crossword-key{text-align:center;color:#bbaec5;font-size:.82rem;margin-top:9px}.crossword-clues{display:grid;gap:16px}.crossword-clues section{padding:14px;border:1px solid rgba(183,128,229,.25);border-radius:13px;background:rgba(8,3,13,.74)}.crossword-clues h3{margin:0 0 8px;color:#f3d36f;letter-spacing:.12em;text-transform:uppercase}.crossword-clue{display:block;width:100%;padding:9px 8px;text-align:left;border:0;border-bottom:1px solid rgba(193,136,232,.14);border-radius:0;background:transparent;color:#e9deef;line-height:1.35}.crossword-clue:hover,.crossword-clue.active{background:rgba(129,54,177,.2);color:#fff}.crossword-clue.solved{color:#ffe06f;text-shadow:0 0 8px rgba(181,76,255,.6)}.crossword-clue b{color:#cf85ff;margin-right:4px}
       .claw-actions{position:relative;display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.claw-actions button{flex:1;min-width:150px}.hidden-claw{position:relative;margin-top:18px;padding:15px;text-align:center;border:1px dashed rgba(226,190,72,.36);border-radius:12px;color:#9e91a9;letter-spacing:.12em}.hidden-claw.revealed{color:#ffe170;border-style:solid;box-shadow:0 0 20px rgba(230,180,54,.16);text-shadow:0 0 13px #b052ff}
       .claw-book{display:none;position:relative;margin-top:25px;padding:25px 18px;border:8px solid #24131d;border-radius:14px;background:linear-gradient(90deg,#b99f76 0,#ead8ab 47%,#8a704c 50%,#ead8ab 53%,#b99f76 100%);color:#251421;text-align:center;box-shadow:0 18px 40px #000,0 0 35px rgba(154,66,237,.42);transform-origin:center;overflow:hidden}.claw-book.open{display:block;animation:openClawBook .9s cubic-bezier(.2,.8,.2,1)}.claw-book:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(77,48,35,.08) 24px 25px);pointer-events:none}.claw-book h3,.claw-book p,.claw-book button{position:relative}.claw-book h3{margin:.2rem 0;color:#4b153a;font-size:1.7rem}.claw-book p{max-width:620px;margin:12px auto;line-height:1.55;font-weight:700}.blood-close{margin-top:10px;background:radial-gradient(circle at 40% 30%,#ff4160,#720012 70%);border-radius:50% 50% 55% 45%;width:58px;height:68px;padding:0;border-color:#37000a;box-shadow:0 0 20px #b30028}.book-runes{color:#69265f;letter-spacing:.22em;font-size:.72rem}@keyframes openClawBook{0%{transform:perspective(800px) rotateY(86deg) scale(.76);opacity:0}65%{transform:perspective(800px) rotateY(-7deg) scale(1.02)}100%{transform:none;opacity:1}}
-      @media(max-width:760px){.member-tabs{display:grid;grid-template-columns:1fr 1fr}.claw-head{grid-template-columns:76px 1fr}.tygaria-seal{width:72px;height:72px;font-size:1.8rem}.clue-card{grid-template-columns:35px 1fr}.claw-answer{grid-column:1/-1}.claw-challenge{padding:17px 13px}.claw-actions button{min-width:120px}}
+      @media(max-width:760px){.member-tabs{display:grid;grid-template-columns:1fr 1fr}.claw-head{grid-template-columns:76px 1fr}.tygaria-seal{width:72px;height:72px;font-size:1.8rem}.crossword-layout{grid-template-columns:1fr}.crossword-clues{grid-template-columns:1fr 1fr}.claw-challenge{padding:17px 10px}.claw-actions button{min-width:120px}}@media(max-width:480px){.crossword-clues{grid-template-columns:1fr}.crossword-board{padding:4px}.crossword-chain-layer{inset:4px}.grid-chain{height:8px}.grid-chain.down{width:8px;height:auto}.cell-number{font-size:.38rem}}
     </style>
   
     <style>
@@ -1491,15 +1488,25 @@
               </div>
               <div class="claw-status" id="clawStatus" aria-live="polite">Tygaria: “The trail begins here. Trust what the darkness remembers.”</div>
               <div class="claw-progress" aria-label="Crossword progress"><span id="clawProgress"></span></div>
-              <div class="clue-list" id="clueList">
-                <label class="clue-card" data-answer="TYGARIA"><span class="clue-number">1</span><span class="clue-text">The Claw Clan survivor drawn toward Oren.</span><input class="claw-answer" autocomplete="off" maxlength="7" placeholder="7 letters" aria-label="Answer to clue 1"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="BLOODSTONE"><span class="clue-number">2</span><span class="clue-text">The purple-and-red crystal formed from Oren’s blood.</span><input class="claw-answer" autocomplete="off" maxlength="10" placeholder="10 letters" aria-label="Answer to clue 2"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="DREAMER"><span class="clue-number">3</span><span class="clue-text">The title of OREN Episode One.</span><input class="claw-answer" autocomplete="off" maxlength="7" placeholder="7 letters" aria-label="Answer to clue 3"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="HUNTER"><span class="clue-number">4</span><span class="clue-text">A killer marked by living symbols beneath the skin.</span><input class="claw-answer" autocomplete="off" maxlength="6" placeholder="6 letters" aria-label="Answer to clue 4"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="OREN"><span class="clue-number">5</span><span class="clue-text">The boy whose fate cannot be seen.</span><input class="claw-answer" autocomplete="off" maxlength="4" placeholder="4 letters" aria-label="Answer to clue 5"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="CHAIN"><span class="clue-number">6</span><span class="clue-text">Oren’s bladed weapon—and what binds each answer.</span><input class="claw-answer" autocomplete="off" maxlength="5" placeholder="5 letters" aria-label="Answer to clue 6"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="CLAW"><span class="clue-number">7</span><span class="clue-text">Tygaria’s lost clan.</span><input class="claw-answer" autocomplete="off" maxlength="4" placeholder="4 letters" aria-label="Answer to clue 7"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
-                <label class="clue-card" data-answer="FATE"><span class="clue-number">8</span><span class="clue-text">The path the hooded figures could never see for Oren.</span><input class="claw-answer" autocomplete="off" maxlength="4" placeholder="4 letters" aria-label="Answer to clue 8"><span class="answer-chain"></span><span class="claw-lock">♢</span></label>
+              <div class="crossword-layout">
+                <div class="crossword-board-wrap">
+                  <div class="crossword-board" id="clawGrid" role="group" aria-label="The Claw's Memory crossword grid"><div class="crossword-chain-layer" id="clawChainLayer"></div></div>
+                  <div class="crossword-key">Tap a numbered square, then enter one letter per box.</div>
+                </div>
+                <div class="crossword-clues" id="clueList">
+                  <section><h3>Across</h3>
+                    <button class="crossword-clue" data-word="bloodstone"><b>1.</b> The purple-and-red crystal formed from OREN’s blood.</button>
+                    <button class="crossword-clue" data-word="chain"><b>5.</b> OREN’s bladed weapon—and what binds each answer.</button>
+                    <button class="crossword-clue" data-word="dreamer"><b>6.</b> The title of OREN Episode One.</button>
+                    <button class="crossword-clue" data-word="fate"><b>7.</b> The path the hooded figures could never see for OREN.</button>
+                  </section>
+                  <section><h3>Down</h3>
+                    <button class="crossword-clue" data-word="hunter"><b>2.</b> A killer marked by living symbols beneath the skin.</button>
+                    <button class="crossword-clue" data-word="oren"><b>3.</b> The boy whose fate cannot be seen.</button>
+                    <button class="crossword-clue" data-word="tygaria"><b>4.</b> The Claw Clan survivor drawn toward OREN.</button>
+                    <button class="crossword-clue" data-word="claw"><b>5.</b> Tygaria’s lost clan—the hidden word.</button>
+                  </section>
+                </div>
               </div>
               <div class="hidden-claw" id="hiddenClaw">HIDDEN CLAW WORD: • • • •</div>
               <div class="claw-actions"><button class="primary" id="checkClaw">Bind My Answers</button><button id="clawHint">Ask Tygaria for a Hint</button><button id="resetClaw">Clear Trail</button></div>
@@ -2753,71 +2760,35 @@
           e && (await openMember(e.user));
         })());
 
-      const clawCards = Array.from(document.querySelectorAll("#clueList .clue-card"));
-      const clawLines = {
-        correct: ["The trail is warm.", "You’re close.", "The trail is marked."],
-        wrong: ["The scent is wrong.", "The trail breaks here.", "Listen closer. The Claw remembers."],
-      };
-      let clawHintIndex = 0;
-      function setClawStatus(text) {
-        document.getElementById("clawStatus").textContent = "Tygaria: “" + text + "”";
-      }
-      function updateClawProgress() {
-        const solved = clawCards.filter((card) => card.classList.contains("solved")).length;
-        document.getElementById("clawProgress").style.width = (solved / clawCards.length) * 100 + "%";
-        if (solved === clawCards.length) completeClawMemory();
-      }
-      function checkClawCard(card) {
-        const input = card.querySelector(".claw-answer");
-        const guess = input.value.trim().replace(/[^a-z]/gi, "").toUpperCase();
-        if (!guess) return false;
-        if (guess === card.dataset.answer) {
-          if (!card.classList.contains("solved")) setClawStatus(clawLines.correct[Math.floor(Math.random() * clawLines.correct.length)]);
-          card.classList.remove("wrong");
-          card.classList.add("solved");
-          input.disabled = true;
-          updateClawProgress();
-          return true;
-        }
-        card.classList.remove("wrong");
-        void card.offsetWidth;
-        card.classList.add("wrong");
-        setClawStatus(clawLines.wrong[Math.floor(Math.random() * clawLines.wrong.length)]);
-        return false;
-      }
-      function completeClawMemory() {
-        document.getElementById("hiddenClaw").textContent = "HIDDEN CLAW WORD: C L A W";
-        document.getElementById("hiddenClaw").classList.add("revealed");
-        document.getElementById("clawBook").classList.add("open");
-        setClawStatus("The trail is complete. The living book remembers you.");
-        localStorage.setItem("orenClawMemoryComplete", "true");
-        setTimeout(() => document.getElementById("clawBook").scrollIntoView({ behavior: "smooth", block: "center" }), 500);
-      }
-      document.getElementById("checkClaw").addEventListener("click", () => {
-        let attempted = false;
-        clawCards.forEach((card) => { if (card.querySelector(".claw-answer").value.trim()) { attempted = true; checkClawCard(card); } });
-        if (!attempted) setClawStatus("Give the trail a scent before asking the chain to bind it.");
-      });
-      clawCards.forEach((card) => card.querySelector(".claw-answer").addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); checkClawCard(card); } }));
-      document.getElementById("clawHint").addEventListener("click", () => {
-        const unsolved = clawCards.filter((card) => !card.classList.contains("solved"));
-        if (!unsolved.length) return completeClawMemory();
-        const card = unsolved[clawHintIndex % unsolved.length];
-        const answer = card.dataset.answer;
-        setClawStatus("The next scent begins with “" + answer[0] + "” and carries " + answer.length + " marks.");
-        card.querySelector(".claw-answer").focus();
-        clawHintIndex += 1;
-      });
-      document.getElementById("resetClaw").addEventListener("click", () => {
-        clawCards.forEach((card) => { card.classList.remove("solved", "wrong"); const input = card.querySelector(".claw-answer"); input.disabled = false; input.value = ""; });
-        document.getElementById("clawProgress").style.width = "0%";
-        document.getElementById("hiddenClaw").textContent = "HIDDEN CLAW WORD: • • • •";
-        document.getElementById("hiddenClaw").classList.remove("revealed");
-        document.getElementById("clawBook").classList.remove("open");
-        localStorage.removeItem("orenClawMemoryComplete");
-        setClawStatus("The trail begins again. Trust what the darkness remembers.");
-      });
-      document.getElementById("closeClawBook").addEventListener("click", () => document.getElementById("clawBook").classList.remove("open"));
+      const clawWords = [
+        {id:"bloodstone",answer:"BLOODSTONE",number:1,row:6,col:2,dir:"across"},
+        {id:"hunter",answer:"HUNTER",number:2,row:2,col:11,dir:"down"},
+        {id:"oren",answer:"OREN",number:3,row:6,col:4,dir:"down"},
+        {id:"tygaria",answer:"TYGARIA",number:4,row:6,col:8,dir:"down"},
+        {id:"chain",answer:"CHAIN",number:5,row:9,col:6,dir:"across"},
+        {id:"claw",answer:"CLAW",number:5,row:9,col:6,dir:"down"},
+        {id:"dreamer",answer:"DREAMER",number:6,row:10,col:7,dir:"across"},
+        {id:"fate",answer:"FATE",number:7,row:12,col:7,dir:"across"}
+      ];
+      const clawLines={correct:["The trail is warm.","You’re close.","The trail is marked."],wrong:["The scent is wrong.","The trail breaks here.","Listen closer. The Claw remembers."]};
+      const clawGrid=document.getElementById("clawGrid"),clawLayer=document.getElementById("clawChainLayer"),clawCells=new Map();
+      let activeClawWord=clawWords[0],clawHintIndex=0;
+      function clawKey(row,col){return row+"-"+col;}
+      function wordCells(word){return Array.from({length:word.answer.length},(_,i)=>clawCells.get(clawKey(word.row+(word.dir==="down"?i:0),word.col+(word.dir==="across"?i:0))).input);}
+      clawWords.forEach(word=>word.answer.split("").forEach((letter,i)=>{const row=word.row+(word.dir==="down"?i:0),col=word.col+(word.dir==="across"?i:0),key=clawKey(row,col);let cell=clawCells.get(key);if(!cell){const wrap=document.createElement("div"),input=document.createElement("input");wrap.style.gridRow=row;wrap.style.gridColumn=col;wrap.style.position="relative";input.className="crossword-cell";input.maxLength=1;input.autocomplete="off";input.setAttribute("aria-label","Crossword row "+row+", column "+col);wrap.append(input);clawGrid.insertBefore(wrap,clawLayer);cell={wrap,input,words:[]};clawCells.set(key,cell);}cell.words.push(word.id);if(i===0&&!cell.wrap.querySelector(".cell-number")){const number=document.createElement("span");number.className="cell-number";number.textContent=word.number;cell.wrap.append(number);}}));
+      function setClawStatus(text){document.getElementById("clawStatus").textContent="Tygaria: “"+text+"”";}
+      function selectClawWord(word){activeClawWord=word;document.querySelectorAll(".crossword-clue").forEach(button=>button.classList.toggle("active",button.dataset.word===word.id));document.querySelectorAll(".crossword-cell").forEach(input=>input.classList.remove("word-focus"));wordCells(word).forEach(input=>input.classList.add("word-focus"));}
+      function updateClawProgress(){const solved=clawWords.filter(word=>word.solved).length;document.getElementById("clawProgress").style.width=(solved/clawWords.length)*100+"%";if(solved===clawWords.length)completeClawMemory();}
+      function bindClawWord(word){if(document.querySelector('.grid-chain[data-word="'+word.id+'"]'))return;const chain=document.createElement("span");chain.className="grid-chain "+word.dir;chain.dataset.word=word.id;chain.style.gridRow=word.row+" / span "+(word.dir==="down"?word.answer.length:1);chain.style.gridColumn=word.col+" / span "+(word.dir==="across"?word.answer.length:1);clawLayer.append(chain);}
+      function checkClawWord(word){const cells=wordCells(word),guess=cells.map(input=>input.value.toUpperCase()).join("");if(!guess.trim())return false;if(guess===word.answer){if(!word.solved)setClawStatus(clawLines.correct[Math.floor(Math.random()*clawLines.correct.length)]);word.solved=true;cells.forEach(input=>input.classList.add("solved-letter"));document.querySelector('.crossword-clue[data-word="'+word.id+'"]').classList.add("solved");bindClawWord(word);updateClawProgress();return true;}cells.forEach(input=>{input.classList.remove("wrong-letter");void input.offsetWidth;input.classList.add("wrong-letter");});setClawStatus(clawLines.wrong[Math.floor(Math.random()*clawLines.wrong.length)]);return false;}
+      document.querySelectorAll(".crossword-clue").forEach(button=>button.addEventListener("click",()=>{const word=clawWords.find(item=>item.id===button.dataset.word);selectClawWord(word);wordCells(word).find(input=>!input.value)?.focus()||wordCells(word)[0].focus();}));
+      clawCells.forEach(cell=>{cell.input.addEventListener("focus",()=>{const chosen=clawWords.find(word=>word.id===(cell.words.includes(activeClawWord.id)?activeClawWord.id:cell.words[0]));selectClawWord(chosen);});cell.input.addEventListener("input",()=>{cell.input.value=cell.input.value.replace(/[^a-z]/gi,"").slice(-1).toUpperCase();const cells=wordCells(activeClawWord),index=cells.indexOf(cell.input);if(cell.input.value&&index<cells.length-1)cells[index+1].focus();});cell.input.addEventListener("keydown",event=>{if(event.key==="Backspace"&&!cell.input.value){const cells=wordCells(activeClawWord),index=cells.indexOf(cell.input);if(index>0)cells[index-1].focus();}if(event.key==="Enter"){event.preventDefault();checkClawWord(activeClawWord);}});});
+      document.getElementById("checkClaw").addEventListener("click",()=>{const attempted=clawWords.filter(word=>wordCells(word).some(input=>input.value));if(!attempted.length)return setClawStatus("Give the trail a scent before asking the chain to bind it.");attempted.forEach(checkClawWord);});
+      document.getElementById("clawHint").addEventListener("click",()=>{const unsolved=clawWords.filter(word=>!word.solved);if(!unsolved.length)return completeClawMemory();const word=unsolved[clawHintIndex%unsolved.length],cells=wordCells(word),index=cells.findIndex(input=>!input.value);selectClawWord(word);if(index>=0){cells[index].value=word.answer[index];cells[index].focus();setClawStatus("A claw mark reveals one letter in "+word.number+" "+word.dir+".");}else setClawStatus("The next scent begins with “"+word.answer[0]+"” and carries "+word.answer.length+" marks.");clawHintIndex++;});
+      function completeClawMemory(){document.getElementById("hiddenClaw").textContent="HIDDEN CLAW WORD: C L A W";document.getElementById("hiddenClaw").classList.add("revealed");document.getElementById("clawBook").classList.add("open");setClawStatus("The trail is complete. The living book remembers OREN.");localStorage.setItem("orenClawMemoryComplete","true");setTimeout(()=>document.getElementById("clawBook").scrollIntoView({behavior:"smooth",block:"center"}),500);}
+      document.getElementById("resetClaw").addEventListener("click",()=>{clawWords.forEach(word=>word.solved=false);clawCells.forEach(cell=>{cell.input.value="";cell.input.classList.remove("solved-letter","wrong-letter","word-focus");});clawLayer.innerHTML="";document.querySelectorAll(".crossword-clue").forEach(button=>button.classList.remove("solved","active"));document.getElementById("clawProgress").style.width="0%";document.getElementById("hiddenClaw").textContent="HIDDEN CLAW WORD: • • • •";document.getElementById("hiddenClaw").classList.remove("revealed");document.getElementById("clawBook").classList.remove("open");localStorage.removeItem("orenClawMemoryComplete");selectClawWord(clawWords[0]);setClawStatus("The trail begins again. Trust what the darkness remembers.");});
+      document.getElementById("closeClawBook").addEventListener("click",()=>document.getElementById("clawBook").classList.remove("open"));
+      selectClawWord(clawWords[0]);
 
 
       const coloringEntrance = document.getElementById("coloringEntrance");
