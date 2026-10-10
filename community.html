@@ -2834,3 +2834,43 @@ grid.addEventListener('click',e=>{const b=e.target.closest('.ws-cell');if(!b)ret
 document.getElementById('wsHint').onclick=()=>{const d=defs.find(x=>!found.has(x[0]));if(!d)return;const i=d[1]*size+d[2];cells[i].classList.add('pick');setTimeout(()=>cells[i].classList.remove('pick'),900);status.textContent='Hint: look for '+d[0][0]+'.'};document.getElementById('wsReset').onclick=()=>{found.clear();first=null;cells.forEach(c=>c.classList.remove('found','pick'));[...list.children].forEach(x=>x.classList.remove('done'));book.classList.remove('show');status.textContent='Choose the first letter of a word.';update()};update();
 })();
 </script>
+<style>
+/* Oct 9 mobile coloring and one-tap word hunt repair */
+.coloring-viewport{height:82vh;max-height:82vh}
+.detail-coloring-page{--page-zoom:1.75;width:calc(100% * var(--page-zoom))}
+.grid-chain,.grid-chain.down{border-color:#542400!important;background:repeating-radial-gradient(ellipse at center,#ffd05a 0 3px,#9a3f00 4px 8px,#ff7a00 9px 11px,#5e2300 12px 16px)!important;box-shadow:0 0 8px #ff9b19,0 0 15px rgba(255,101,0,.72)!important}
+.crossword-clue.solved:after{border-color:#542400!important;background:linear-gradient(90deg,#ff7a00,#ffd05a,#ff7a00)!important;box-shadow:0 0 14px #ff7a00!important}
+@media(max-width:760px){.coloring-shell{padding-left:4px;padding-right:4px}.coloring-book{padding:4px;border-width:5px}.coloring-pages{padding:2px}.coloring-viewport{height:76vh;max-height:76vh}.detail-coloring-page{--page-zoom:2}.crossword-board{width:620px;max-width:none}.crossword-cell{font-size:1.14rem;touch-action:manipulation}}
+</style>
+<script>
+/* One tap on any letter binds that found word, then advances. */
+window.addEventListener("load",()=>{
+  const key=document.querySelector(".crossword-key");
+  if(key)key.textContent="Found a word? Tap any letter in it once. An orange chain will cross it out and the next word will light up.";
+  if(typeof coloringZoom!=="undefined"){coloringZoom=matchMedia("(max-width:760px)").matches?2:1.75;if(typeof setColoringZoom==="function")setColoringZoom(coloringZoom);}
+  if(typeof coloringPencilSize!=="undefined")coloringPencilSize=10;
+  document.querySelectorAll(".crossword-cell").forEach(cell=>cell.addEventListener("pointerup",event=>{
+    event.preventDefault();event.stopImmediatePropagation();
+    const mapCell=clawCells.get(clawKey(Number(cell.dataset.row),Number(cell.dataset.col)));
+    if(!mapCell)return;
+    const choices=mapCell.words.map(id=>clawWords.find(word=>word.id===id)).filter(word=>word&&!word.solved);
+    const word=choices.find(word=>word===activeClawWord)||choices[0];
+    clearClawSelection();clawDragStart=null;clawDragEnd=null;clawTapStart=null;
+    if(!word){setClawStatus("That word is already bound. Find the next glowing word.");return;}
+    selectClawWord(word);solveClawWord(word);
+    const next=clawWords.find(item=>!item.solved);if(next)selectClawWord(next);
+  },true));
+});
+</script>
+
+<style>.ws-cell.found{background:rgba(255,122,0,.72)!important;border-color:#ffd05a!important;box-shadow:0 0 10px #ff7a00}.ws-words li.done{text-decoration:line-through 4px #ff7a00!important;color:#ffd08a!important;background:rgba(255,122,0,.14)!important}</style>
+<script>
+window.addEventListener('load',()=>{const grid=document.getElementById('wsGrid');if(!grid)return;const note=document.querySelector('.ws-note');if(note)note.textContent='Found a word? Tap any letter in it once. An orange line will cross it out and the next word will remain.';const size=13,words=[['BLOODSTONE',0,0,0,1],['TYGARIA',2,1,0,1],['DREAMER',4,5,1,0],['HUNTER',12,12,0,-1],['CHAIN',1,12,1,0],['OREN',7,1,0,1],['FATE',9,8,0,1],['CLAW',11,0,0,1]],buttons=[...grid.querySelectorAll('.ws-cell')];grid.addEventListener('click',e=>{const button=e.target.closest('.ws-cell');if(!button)return;e.preventDefault();e.stopImmediatePropagation();const index=Number(button.dataset.i),match=words.find(([word,row,col,dr,dc])=>!document.querySelector('.ws-words [data-w="'+word+'"]').classList.contains('done')&&[...word].some((_,i)=>(row+i*dr)*size+col+i*dc===index));if(!match){document.getElementById('wsStatus').textContent='That word is already crossed out. Find another orange trail.';return;}const [word,row,col,dr,dc]=match;[...word].forEach((_,i)=>buttons[(row+i*dr)*size+col+i*dc].classList.add('found'));document.querySelector('.ws-words [data-w="'+word+'"]').classList.add('done');const done=document.querySelectorAll('.ws-words li.done').length;document.getElementById('wsProgress').style.width=(done/words.length*100)+'%';document.getElementById('wsStatus').textContent=word+' found! Tap the next word.';if(done===words.length){document.getElementById('wsBook').classList.add('show');document.getElementById('wsStatus').textContent='Every hidden word has been found.';}},true);});
+</script>
+
+<style>
+.coloring-book{overflow:auto;max-height:82vh;-webkit-overflow-scrolling:touch}.coloring-pages{position:relative;width:180%;min-width:900px}.coloring-pages svg{display:block;width:100%;height:auto}.finger-paint-layer{position:absolute;inset:0;width:100%;height:100%;touch-action:none;z-index:5;cursor:crosshair}.finger-pencil-controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.finger-pencil-controls button{min-height:44px}.finger-pencil-controls button.active{border-color:#ff9a2b;box-shadow:0 0 12px #ff7a00}@media(max-width:760px){.coloring-book{max-height:76vh}.coloring-pages{width:240%;min-width:980px}}
+</style>
+<script>
+window.addEventListener('load',()=>{const art=document.getElementById('orenColoringArt'),pages=art&&art.parentElement;if(!art||!pages||pages.querySelector('.finger-paint-layer'))return;pages.style.position='relative';const canvas=document.createElement('canvas');canvas.className='finger-paint-layer';canvas.width=900;canvas.height=520;canvas.setAttribute('aria-label','Finger pencil coloring layer');pages.append(canvas);const ctx=canvas.getContext('2d');ctx.lineCap='round';ctx.lineJoin='round';let drawing=false,size=10,last=null;const controls=document.createElement('div');controls.className='finger-pencil-controls';controls.innerHTML='<button type="button" class="active" data-pencil="10">✎ Fine Pencil</button><button type="button" data-pencil="20">Medium</button><button type="button" data-pencil="38">Large</button><button type="button" data-pencil="erase">Eraser</button><button type="button" data-pencil="clear">Clear Pencil</button>';const anchor=document.querySelector('.color-controls')||document.getElementById('colorUndo')?.parentElement;anchor?.prepend(controls);controls.addEventListener('click',e=>{const b=e.target.closest('[data-pencil]');if(!b)return;const tool=b.dataset.pencil;if(tool==='clear'){ctx.clearRect(0,0,canvas.width,canvas.height);return}controls.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(tool==='erase'){size=38;ctx.globalCompositeOperation='destination-out'}else{size=Number(tool);ctx.globalCompositeOperation='source-over'}});const point=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}};canvas.addEventListener('pointerdown',e=>{e.preventDefault();drawing=true;canvas.setPointerCapture(e.pointerId);last=point(e)});canvas.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();const p=point(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.strokeStyle=typeof coloringInk==='undefined'?'#9b4dff':coloringInk;ctx.lineWidth=size;ctx.stroke();last=p});const stop=()=>{drawing=false;last=null};canvas.addEventListener('pointerup',stop);canvas.addEventListener('pointercancel',stop);const msg=document.getElementById('coloringMessage');if(msg)msg.textContent='The page is enlarged. Choose a color, then use your finger like a pencil. Use Fine Pencil for small details.';});
+</script>
