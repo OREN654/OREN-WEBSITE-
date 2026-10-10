@@ -1194,3 +1194,10 @@ window.addEventListener('load',()=>{
   document.body.prepend(layer);requestAnimationFrame(()=>layer.style.height=document.documentElement.scrollHeight+'px');
 });
 </script>
+
+<style>
+/* Keep the atmospheric signs visible above the painted background without blocking taps. */
+.oren-world-signs{z-index:18!important;pointer-events:none!important}
+.oren-world-sign{opacity:.78;mix-blend-mode:screen}
+@media(max-width:720px){.oren-world-sign{width:38vw;opacity:.7;font-size:.58rem}}
+</style>
