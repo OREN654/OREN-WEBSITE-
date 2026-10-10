@@ -1160,3 +1160,37 @@ body>header,body>main,body>footer{position:relative;z-index:2}
 
 </body>
 </html>
+
+
+<!-- SCATTERED OREN NEON WORLD WARNINGS -->
+<style>
+  .oren-world-signs{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;min-height:100%;}
+  .oren-world-sign{position:absolute;width:min(280px,42vw);padding:12px 14px;text-align:center;border:3px solid currentColor;border-radius:11px;background:rgba(3,1,8,.72);font:900 clamp(.66rem,1.55vw,.94rem)/1.28 Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase;opacity:.68;box-shadow:0 0 7px currentColor,inset 0 0 10px currentColor,0 0 26px currentColor;text-shadow:0 0 5px currentColor,0 0 12px currentColor;animation:orenSignFlicker 4s infinite alternate;transform:rotate(var(--tilt,0deg));}
+  .oren-world-sign:after{content:"";position:absolute;inset:5px;border:1px solid currentColor;border-radius:5px;opacity:.45}
+  .oren-world-sign.red{color:#ff3155}.oren-world-sign.purple{color:#bd63ff}.oren-world-sign.orange{color:#ff912f}.oren-world-sign.green{color:#55ff8c}
+  @keyframes orenSignFlicker{0%,7%,10%,72%,100%{filter:brightness(1.15)}8%,9%{filter:brightness(.35);opacity:.38}50%{filter:brightness(.82)}}
+  @media(max-width:720px){.oren-world-sign{width:46vw;font-size:.61rem;padding:9px 8px;opacity:.56}.oren-world-sign:nth-child(3n){width:40vw}}
+  @media(prefers-reduced-motion:reduce){.oren-world-sign{animation:none}}
+</style>
+<script>
+window.addEventListener('load',()=>{
+  if(document.querySelector('.oren-world-signs'))return;
+  const layer=document.createElement('div');layer.className='oren-world-signs';layer.setAttribute('aria-hidden','true');
+  const warnings=[
+    ['DO NOT APPROACH — OREN’S POWER IS UNSTABLE','red'],
+    ['TOO CLOSE — THE WEREWOLF MAY HOWL','purple'],
+    ['KEEP OUT — VAMPIRES DRINK BLOOD HERE','red'],
+    ['HUNTER TERRITORY — GREEN TATTOOS MEAN RUN','green'],
+    ['BLOOD STONE SEALED — DO NOT TOUCH','orange'],
+    ['DARK SKY AHEAD — THE FATES ARE WATCHING','purple'],
+    ['CLAWS IN THE DARK — TURN BACK','orange'],
+    ['CHAINS ACTIVE — MAGIC CROSSING','purple'],
+    ['NO SAFE PATH BEYOND THIS POINT','red'],
+    ['ENTER THE OREN WORLD AT YOUR OWN RISK','orange'],
+    ['GARGOYLE ROOFTOP — EYES ABOVE','purple'],
+    ['VAMPIRE FEEDING GROUND — STAY IN THE LIGHT','red']
+  ];
+  warnings.forEach((item,i)=>{const sign=document.createElement('div');sign.className='oren-world-sign '+item[1];sign.textContent=item[0];const row=(i+.7)/warnings.length*100;sign.style.top='calc('+row.toFixed(1)+'% - 45px)';sign.style[i%2?'right':'left']=(i%3===0?'1.5':'4.5')+'%';sign.style.setProperty('--tilt',(i%2?2.5:-2.5)+'deg');sign.style.animationDelay=(i*.31)+'s';layer.appendChild(sign)});
+  document.body.prepend(layer);requestAnimationFrame(()=>layer.style.height=document.documentElement.scrollHeight+'px');
+});
+</script>
